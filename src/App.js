@@ -1,9 +1,107 @@
+import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+const API_URL = "https://momentum.redberryinternship.ge/api";
+const API_KEY = "9e6a5700-6498-414a-acfb-a123cf18c85e";
+
 export default function App() {
+    const [tasks, setTasks] = useState([]);
+    const [departments, setDepartments] = useState([]);
+    const [priorities, setPriorities] = useState([]);
+    const [employees, setEmployees] = useState([]);
+    const [filters, setFilters] = useState({
+        department: [],
+        priority: [],
+        employee: [],
+    });
+
+    const [dropdowns, setDropdowns] = useState({
+        department: false,
+        priority: false,
+        employee: false,
+    });
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const [
+                    tasksResponse,
+                    departmentsResponse,
+                    prioritiesResponse,
+                    employeesResponse,
+                ] = await Promise.all([
+                    fetch(`${API_URL}/tasks`, {
+                        headers: {
+                            Authorization: `Bearer ${API_KEY}`,
+                        },
+                    }),
+                    fetch(`${API_URL}/departments`, {
+                        headers: {
+                            Authorization: `Bearer ${API_KEY}`,
+                        },
+                    }),
+                    fetch(`${API_URL}/priorities`, {
+                        headers: {
+                            Authorization: `Bearer ${API_KEY}`,
+                        },
+                    }),
+                    fetch(`${API_URL}/employees`, {
+                        headers: {
+                            Authorization: `Bearer ${API_KEY}`,
+                        },
+                    }),
+                ]);
+
+                const tasksData = await tasksResponse.json();
+                const departmentsData = await departmentsResponse.json();
+                const prioritiesData = await prioritiesResponse.json();
+                const employeesData = await employeesResponse.json();
+
+                console.log(departmentsData);
+                setTasks(tasksData);
+                setDepartments(departmentsData);
+                setPriorities(prioritiesData);
+                setEmployees(employeesData);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    function handleDropdown(filterType) {
+        setDropdowns((prevDropdowns) => ({
+            ...prevDropdowns,
+            [filterType]: !prevDropdowns[filterType],
+        }));
+    }
+
+    function handleCheckboxChange(filterType, value) {
+        setFilters((prevFilters) => {
+            const newFilterValues = prevFilters[filterType].includes(value)
+                ? prevFilters[filterType].filter((item) => item !== value)
+                : [...prevFilters[filterType], value];
+            return {
+                ...prevFilters,
+                [filterType]: newFilterValues,
+            };
+        });
+    }
+
     return (
         <div>
             <Navbar />
-            <Filters />
-            <TaskBoard />
+            <Filters
+                dropdowns={dropdowns}
+                filters={filters}
+                departments={departments}
+                priorities={priorities}
+                employees={employees}
+                onHandleDropdown={handleDropdown}
+                onHandleCheckboxChange={handleCheckboxChange}
+            />
+            <TaskBoard tasks={tasks} filters={filters} />
         </div>
     );
 }
@@ -13,7 +111,12 @@ function Navbar() {
         <>
             <nav className="navbar">
                 <div className="navbar-left">
-                    <span className="logo">Momentum</span>
+                    <span className="nav-title">Momentum</span>
+                    <img
+                        src="icons/Hourglass.png"
+                        alt=""
+                        className="nav-icon"
+                    />
                 </div>
                 <div className="navbar-right">
                     <button className="add-employee-button">
@@ -29,47 +132,110 @@ function Navbar() {
     );
 }
 
-function Filters() {
+function Filters({
+    dropdowns,
+    filters,
+    departments,
+    priorities,
+    employees,
+    onHandleDropdown,
+    onHandleCheckboxChange,
+}) {
     return (
         <div className="filters">
-            <button>დეპარტამენტი</button>
-            <button>პრიორიტეტი</button>
-            <button>თანამშრომელი</button>
+            <div className="filter">
+                <button onClick={() => onHandleDropdown("department")}>
+                    დეპარტამენტი
+                </button>
+                {dropdowns.department && (
+                    <div className="dropdown">
+                        {departments.map((department) => (
+                            <label key={department}>
+                                <input
+                                    type="checkbox"
+                                    checked={filters.department.includes(
+                                        department
+                                    )}
+                                    onChange={() =>
+                                        onHandleCheckboxChange(
+                                            "department",
+                                            department
+                                        )
+                                    }
+                                />
+                                {department}
+                            </label>
+                        ))}
+                    </div>
+                )}
+            </div>
+            <div className="filter">
+                <button onClick={() => onHandleDropdown("priority")}>
+                    პრიორიტეტი
+                </button>
+                {dropdowns.priority && (
+                    <div className="dropdown">
+                        {priorities.map((priority) => (
+                            <label key={priority}>
+                                <input
+                                    type="checkbox"
+                                    checked={filters.priority.includes(
+                                        priority
+                                    )}
+                                    onChange={() =>
+                                        onHandleCheckboxChange(
+                                            "priority",
+                                            priority
+                                        )
+                                    }
+                                />
+                                {priority}
+                            </label>
+                        ))}
+                    </div>
+                )}
+            </div>
+            <div className="filter">
+                <button onClick={() => onHandleDropdown("employee")}>
+                    თანამშრომელი
+                </button>
+                {dropdowns.employee && (
+                    <div className="dropdown">
+                        {employees.map((employee) => (
+                            <label key={employee}>
+                                <input
+                                    type="checkbox"
+                                    checked={filters.employee.includes(
+                                        employee
+                                    )}
+                                    onChange={() =>
+                                        onHandleCheckboxChange(
+                                            "employee",
+                                            employee
+                                        )
+                                    }
+                                />
+                                {employee}
+                            </label>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
 
-function TaskBoard() {
-    const tasks = [
-        {
-            id: 1,
-            title: "Redberry-ს ბანერის დიზაინი",
-            description: "შექმენი ახალი დიზაინი",
-            priority: "High",
-            status: "დასაწყები",
-            userAvatar: "/avatar1.png",
-            comments: 8,
-        },
-        {
-            id: 2,
-            title: "Mobile UI Fix",
-            description: "შექმენი ახალი დიზაინი",
-            priority: "Medium",
-            status: "პროცესში",
-            userAvatar: "/avatar2.png",
-            comments: 5,
-        },
-        {
-            id: 3,
-            title: "New Landing Page",
-            description: "შექმენი ახალი დიზაინი",
-            priority: "Low",
-            status: "მიმდინარეობს",
-            userAvatar: "/avatar3.png",
-            comments: 3,
-        },
-    ];
-
+function TaskBoard({ tasks, filters }) {
+    const filteredTasks = tasks.filter((task) => {
+        return (
+            (filters.department.length === 0 ||
+                filters.department.includes(task.department)) &&
+            (filters.priority.length === 0 ||
+                filters.priority.includes(task.priority)) &&
+            (filters.employee.length === 0 ||
+                filters.employee.includes(task.employee))
+        );
+    });
     const columns = [
         { title: "დასაწყები", color: "##F7BC30" },
         { title: "პროგრესში", color: "##FB5607" },
@@ -84,8 +250,23 @@ function TaskBoard() {
                     key={column.title}
                     title={column.title}
                     color={column.color}
-                    tasks={tasks.filter((task) => task.status === column.title)}
+                    tasks={filteredTasks.filter(
+                        (task) => task.status === column.title
+                    )}
                 />
+            ))}
+        </div>
+    );
+}
+
+function TaskColumn({ title, tasks, color }) {
+    return (
+        <div className="task-column">
+            <h3 className="column-title" style={{ backgroundColor: color }}>
+                {title}
+            </h3>
+            {tasks.map((task) => (
+                <TaskCard key={task.id} task={task} />
             ))}
         </div>
     );
@@ -93,7 +274,14 @@ function TaskBoard() {
 
 function TaskCard({ task }) {
     return (
-        <div className="task-card">
+        <div
+            className="task-card"
+            style={{
+                border: "1px solid black",
+                margin: "10px",
+                padding: "10px",
+            }}
+        >
             <div className="task-header">
                 <span className={`tag ${task.priority.toLowerCase()}`}>
                     {task.priority}
@@ -108,19 +296,6 @@ function TaskCard({ task }) {
                 <img src={task.userAvatar} alt="User" className="user-avatar" />
                 <span className="comments">💬 {task.comments}</span>
             </div>
-        </div>
-    );
-}
-
-function TaskColumn({ title, tasks, color }) {
-    return (
-        <div className="task-column">
-            <h3 className="column-title" style={{ backgroundColor: color }}>
-                {title}
-            </h3>
-            {tasks.map((task) => (
-                <TaskCard key={task.id} task={task} />
-            ))}
         </div>
     );
 }
