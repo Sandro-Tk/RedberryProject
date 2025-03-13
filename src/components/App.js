@@ -96,7 +96,7 @@ export default function App() {
             };
         });
     }
-
+ 
     function handleConfirmFilters() {
         setDropdowns({
             department: false,
