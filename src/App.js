@@ -57,7 +57,7 @@ export default function App() {
                 const prioritiesData = await prioritiesResponse.json();
                 const employeesData = await employeesResponse.json();
 
-                console.log(departmentsData);
+                console.log(employeesData);
                 setTasks(tasksData);
                 setDepartments(departmentsData);
                 setPriorities(prioritiesData);
@@ -72,8 +72,12 @@ export default function App() {
 
     function handleDropdown(filterType) {
         setDropdowns((prevDropdowns) => ({
-            ...prevDropdowns,
-            [filterType]: !prevDropdowns[filterType],
+            department:
+                filterType === "department" ? !prevDropdowns.department : false,
+            priority:
+                filterType === "priority" ? !prevDropdowns.priority : false,
+            employee:
+                filterType === "employee" ? !prevDropdowns.employee : false,
         }));
     }
 
@@ -142,80 +146,96 @@ function Filters({
     onHandleCheckboxChange,
 }) {
     return (
-        <div className="filters">
-            <div className="filter">
-                <button onClick={() => onHandleDropdown("department")}>
-                    დეპარტამენტი
-                </button>
+        <div className="filters-container">
+            <div className="filters">
+                <div className="filter">
+                    <button
+                        className="filter-button"
+                        onClick={() => onHandleDropdown("department")}
+                    >
+                        დეპარტამენტი {dropdowns.department ? "▲" : "▼"}
+                    </button>
+                </div>
+                <div className="filter">
+                    <button
+                        className="filter-button"
+                        onClick={() => onHandleDropdown("priority")}
+                    >
+                        პრიორიტეტი {dropdowns.priority ? "▲" : "▼"}
+                    </button>
+                </div>
+                <div className="filter">
+                    <button
+                        className="filter-button"
+                        onClick={() => onHandleDropdown("employee")}
+                    >
+                        თანამშრომელი {dropdowns.employee ? "▲" : "▼"}
+                    </button>
+                </div>
+            </div>
+            <div className="dropdowns">
                 {dropdowns.department && (
                     <div className="dropdown">
                         {departments.map((department) => (
-                            <label key={department}>
+                            <label
+                                key={department.id}
+                                className="dropdown-item"
+                            >
                                 <input
                                     type="checkbox"
                                     checked={filters.department.includes(
-                                        department
+                                        department.name
                                     )}
                                     onChange={() =>
                                         onHandleCheckboxChange(
                                             "department",
-                                            department
+                                            department.name
                                         )
                                     }
                                 />
-                                {department}
+                                {department.name}
                             </label>
                         ))}
                     </div>
                 )}
-            </div>
-            <div className="filter">
-                <button onClick={() => onHandleDropdown("priority")}>
-                    პრიორიტეტი
-                </button>
                 {dropdowns.priority && (
                     <div className="dropdown">
                         {priorities.map((priority) => (
-                            <label key={priority}>
+                            <label key={priority.id} className="dropdown-item">
                                 <input
                                     type="checkbox"
                                     checked={filters.priority.includes(
-                                        priority
+                                        priority.name
                                     )}
                                     onChange={() =>
                                         onHandleCheckboxChange(
                                             "priority",
-                                            priority
+                                            priority.name
                                         )
                                     }
                                 />
-                                {priority}
+                                {priority.name}
                             </label>
                         ))}
                     </div>
                 )}
-            </div>
-            <div className="filter">
-                <button onClick={() => onHandleDropdown("employee")}>
-                    თანამშრომელი
-                </button>
                 {dropdowns.employee && (
                     <div className="dropdown">
                         {employees.map((employee) => (
-                            <label key={employee}>
+                            <label key={employee.id} className="dropdown-item">
                                 <input
                                     type="checkbox"
                                     checked={filters.employee.includes(
-                                        employee
+                                        employee.name
                                     )}
                                     onChange={() =>
                                         onHandleCheckboxChange(
                                             "employee",
-                                            employee
+                                            employee.name
                                         )
                                     }
                                 />
-                                {employee}
+                                {employee.name}
                             </label>
                         ))}
                     </div>
