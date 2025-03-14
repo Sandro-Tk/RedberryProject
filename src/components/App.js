@@ -1,12 +1,13 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { Navbar } from "./Navbar";
-import { Filters } from "./Filters";
-import { TaskBoard } from "./TaskBoard";
-import { Modal } from "./Modal";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navbar from "./Navbar/Navbar";
+import Filters from "./Filters/Filters";
+import TaskBoard from "./TaskBoard/TaskBoard";
+import Modal from "./Modal/Modal";
+import AddTaskPage from "./AddTaskPage/AddTaskPage";
+
 export const API_URL = "https://momentum.redberryinternship.ge/api";
-export const API_KEY = "9e6c900b-d1a4-45a7-ade1-f91a676a2dd6";
+export const API_KEY = "9e6e66c9-7cf4-4758-9400-543b85e94bfb";
 
 export default function App() {
     const [tasks, setTasks] = useState([]);
@@ -96,7 +97,7 @@ export default function App() {
             };
         });
     }
- 
+
     function handleConfirmFilters() {
         setDropdowns({
             department: false,
@@ -110,25 +111,37 @@ export default function App() {
     }
 
     return (
-        <div>
+        <Router>
             <Navbar onOpenModal={() => setIsModalOpen(true)} />
-            <Filters
-                dropdowns={dropdowns}
-                filters={filters}
-                departments={departments}
-                priorities={priorities}
-                employees={employees}
-                onHandleDropdown={handleDropdown}
-                onHandleCheckboxChange={handleCheckboxChange}
-                onConfirmFilters={handleConfirmFilters}
-            />
-            <TaskBoard tasks={tasks} filters={filters} />
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                departments={departments}
-                addEmployee={addEmployee}
-            />
-        </div>
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <>
+                            <p className="subheader">დავალებების გვერდი</p>
+
+                            <Filters
+                                dropdowns={dropdowns}
+                                filters={filters}
+                                departments={departments}
+                                priorities={priorities}
+                                employees={employees}
+                                onHandleDropdown={handleDropdown}
+                                onHandleCheckboxChange={handleCheckboxChange}
+                                onConfirmFilters={handleConfirmFilters}
+                            />
+                            <TaskBoard tasks={tasks} filters={filters} />
+                            <Modal
+                                isOpen={isModalOpen}
+                                onClose={() => setIsModalOpen(false)}
+                                departments={departments}
+                                addEmployee={addEmployee}
+                            />
+                        </>
+                    }
+                />
+                <Route path="/add-task" element={<AddTaskPage />} />
+            </Routes>
+        </Router>
     );
 }

@@ -1,6 +1,7 @@
 import React from "react";
+import "./Filters.css";
 
-export function Filters({
+export default function Filters({
     dropdowns,
     filters,
     departments,
@@ -42,26 +43,26 @@ export function Filters({
                 {dropdowns.department && (
                     <div className="dropdown">
                         {departments.map((department) => (
-                            <>
-                                <label
-                                    key={department.id}
-                                    className="dropdown-item"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={filters.department.includes(
+                            <label
+                                key={department.id}
+                                className="dropdown-item"
+                            >
+                                <input
+                                    type="checkbox"
+                                    id={`department-${department.id}`}
+                                    name={`department-${department.id}`}
+                                    checked={filters.department.includes(
+                                        department.name
+                                    )}
+                                    onChange={() =>
+                                        onHandleCheckboxChange(
+                                            "department",
                                             department.name
-                                        )}
-                                        onChange={() =>
-                                            onHandleCheckboxChange(
-                                                "department",
-                                                department.name
-                                            )
-                                        }
-                                    />
-                                    {department.name}
-                                </label>
-                            </>
+                                        )
+                                    }
+                                />
+                                {department.name}
+                            </label>
                         ))}
                         <button
                             className="confirm-button"
@@ -74,26 +75,23 @@ export function Filters({
                 {dropdowns.priority && (
                     <div className="dropdown">
                         {priorities.map((priority) => (
-                            <>
-                                <label
-                                    key={priority.id}
-                                    className="dropdown-item"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={filters.priority.includes(
+                            <label key={priority.id} className="dropdown-item">
+                                <input
+                                    type="checkbox"
+                                    id={`priority-${priority.id}`}
+                                    name={`priority-${priority.id}`}
+                                    checked={filters.priority.includes(
+                                        priority.name
+                                    )}
+                                    onChange={() =>
+                                        onHandleCheckboxChange(
+                                            "priority",
                                             priority.name
-                                        )}
-                                        onChange={() =>
-                                            onHandleCheckboxChange(
-                                                "priority",
-                                                priority.name
-                                            )
-                                        }
-                                    />
-                                    {priority.name}
-                                </label>
-                            </>
+                                        )
+                                    }
+                                />
+                                {priority.name}
+                            </label>
                         ))}
                         <button
                             className="confirm-button"
@@ -106,26 +104,23 @@ export function Filters({
                 {dropdowns.employee && (
                     <div className="dropdown">
                         {employees.map((employee) => (
-                            <>
-                                <label
-                                    key={employee.id}
-                                    className="dropdown-item"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={filters.employee.includes(
+                            <label key={employee.id} className="dropdown-item">
+                                <input
+                                    type="checkbox"
+                                    id={`employee-${employee.id}`}
+                                    name={`employee-${employee.id}`}
+                                    checked={filters.employee.includes(
+                                        employee.name
+                                    )}
+                                    onChange={() =>
+                                        onHandleCheckboxChange(
+                                            "employee",
                                             employee.name
-                                        )}
-                                        onChange={() =>
-                                            onHandleCheckboxChange(
-                                                "employee",
-                                                employee.name
-                                            )
-                                        }
-                                    />
-                                    {employee.name}
-                                </label>
-                            </>
+                                        )
+                                    }
+                                />
+                                {employee.name}
+                            </label>
                         ))}
                         <button
                             className="confirm-button"

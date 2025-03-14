@@ -1,6 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
-export function Navbar({ onOpenModal }) {
+export default function Navbar({ onOpenModal }) {
+    const navigate = useNavigate();
+
+    const handleAddTaskClick = () => {
+        navigate("/add-task");
+    };
+
     return (
         <>
             <nav className="navbar">
@@ -19,12 +27,14 @@ export function Navbar({ onOpenModal }) {
                     >
                         თანამშრომლის შექმნა
                     </button>
-                    <button className="add-task-btn">
-                        add + png later შექმენი ახალი დავალება
+                    <button
+                        className="add-task-btn"
+                        onClick={handleAddTaskClick}
+                    >
+                        შექმენი ახალი დავალება
                     </button>
                 </div>
             </nav>
-            <p className="subheader">დავალებების გვერდი</p>
         </>
     );
 }

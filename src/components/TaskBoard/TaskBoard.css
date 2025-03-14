@@ -1,0 +1,89 @@
+/* Task Board */
+.task-board {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+/* Task Column */
+.task-column {
+    flex: 1;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.task-column h2 {
+    margin: 0;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    background-color: #333; 
+}
+
+.task-list {
+    padding: 10px;
+}
+
+/* Task Card */
+.task-card {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+/* Task Header */
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    color: white;
+}
+
+.tag.priority {
+    background-color: #f7bc30;
+}
+
+.tag.department {
+    background-color: #3a86ff;
+}
+
+.due-date {
+    font-size: 0.875rem;
+    color: #888;
+}
+
+/* Task Footer */
+.task-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comments {
+    font-size: 0.875rem;
+    color: #888;
+}

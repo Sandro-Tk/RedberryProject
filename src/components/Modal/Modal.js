@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { API_URL, API_KEY } from "./App";
+import { API_URL, API_KEY } from "../App";
+import "./Modal.css";
 
-export function Modal({ isOpen, onClose, departments, addEmployee }) {
+export default function Modal({ isOpen, onClose, departments, addEmployee }) {
     const [name, setName] = useState("");
     const [surname, setLastname] = useState("");
     const [departmentId, setDepartmentId] = useState("");

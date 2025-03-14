@@ -1,0 +1,53 @@
+.priority-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.priority-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.priority-select img {
+    margin-right: 10px;
+}
+
+.priority-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+.priority-dropdown .priority-options {
+    display: block;
+}
+
+.priority-option {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.priority-option img {
+    margin-right: 10px;
+}
+
+.priority-option.selected {
+    background: #f0f0f0;
+}
