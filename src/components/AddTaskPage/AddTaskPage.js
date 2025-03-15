@@ -122,17 +122,14 @@ export default function AddTaskPage() {
         };
 
         try {
-            const response = await fetch(
-                "https://momentum.redberryinternship.ge/api/tasks",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${API_KEY}`,
-                    },
-                    body: JSON.stringify(taskData),
-                }
-            );
+            const response = await fetch(`${API_URL}/tasks`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${API_KEY}`,
+                },
+                body: JSON.stringify(taskData),
+            });
 
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -182,7 +179,7 @@ export default function AddTaskPage() {
                     </div>
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="priority">პრიორიტეტი*</label>
+                            <label>პრიორიტეტი*</label>
                             <PriorityDropdown
                                 options={priorities}
                                 value={priority}

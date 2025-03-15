@@ -1,9 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import "./TaskBoard";
 
 export default function TaskCard({ task }) {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/task/${task.id}`);
+    };
 
     return (
-        <div className="task-card">
+        <div className="task-card" onClick={handleClick} >
             <div className="task-header">
                 <span className="tag priority">
                     <img src={task.priority.icon} alt={task.priority.name} />

@@ -20,7 +20,7 @@
     padding: 10px;
     color: white;
     text-align: center;
-    background-color: #333; 
+    background-color: #333;
 }
 
 .task-list {
@@ -29,6 +29,7 @@
 
 /* Task Card */
 .task-card {
+    cursor: pointer;
     background-color: #fff;
     padding: 10px;
     border-radius: 5px;

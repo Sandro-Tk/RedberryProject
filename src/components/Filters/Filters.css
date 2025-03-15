@@ -1,62 +1,82 @@
-/* Filters container */
 .filters-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 20px 120px;
+    width: 688px;
+    border: solid #dee2e6 2px;
+    border-radius: 8px;
+    margin-left: 120px;
+    color: white;
+    position: relative;
 }
 
 .filters {
     display: flex;
-    gap: 20px;
-}
-
-.filter {
-    position: relative;
+    justify-content: space-between;
 }
 
 .filter-button {
-    width: 200px;
-    padding: 10px;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
     background-color: white;
+    color: black;
+    width: 200px;
+    height: 44px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    font-size: 1rem;
 }
 
-/* Dropdowns in filters */
+.filter-button:hover {
+    background-color: #6a2bbf;
+}
+
 .dropdowns {
     width: 100%;
-    position: relative;
-}
-
-.dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     position: absolute;
     top: 100%;
     left: 0;
-    width: 620px;
-    background-color: white;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 10px;
     z-index: 1000;
+}
+
+.dropdown {
+    background-color: white;
+    border: solid #8338ec 0.5px;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+    color: black;
 }
 
 .dropdown-item {
     display: flex;
     align-items: center;
-    padding: 5px 0;
+    margin-bottom: 10px;
+    font-size: 1rem;
 }
 
 .dropdown-item input {
     margin-right: 10px;
 }
 
-.dropdown-item:hover {
-    background-color: #f1f1f1;
+.employee-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.confirm-button {
+    background-color: #8338ec;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.confirm-button:hover {
+    background-color: #6a2bbf;
 }

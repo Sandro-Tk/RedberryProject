@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Filters.css";
 
 export default function Filters({
@@ -8,9 +8,30 @@ export default function Filters({
     priorities,
     employees,
     onHandleDropdown,
-    onHandleCheckboxChange,
     onConfirmFilters,
 }) {
+    const [selectedFilters, setSelectedFilters] = useState(filters);
+
+    const handleCheckboxChange = (type, value) => {
+        const updatedFilters = { ...selectedFilters };
+        if (updatedFilters[type].includes(value)) {
+            updatedFilters[type] = updatedFilters[type].filter(
+                (item) => item !== value
+            );
+        } else {
+            updatedFilters[type].push(value);
+        }
+        setSelectedFilters(updatedFilters);
+    };
+
+    const handleConfirmFilters = () => {
+        onConfirmFilters(selectedFilters);
+        
+        onHandleDropdown("department", false);
+        onHandleDropdown("priority", false);
+        onHandleDropdown("employee", false);
+    };
+
     return (
         <div className="filters-container">
             <div className="filters">
@@ -42,31 +63,33 @@ export default function Filters({
             <div className="dropdowns">
                 {dropdowns.department && (
                     <div className="dropdown">
-                        {departments.map((department) => (
-                            <label
-                                key={department.id}
-                                className="dropdown-item"
-                            >
-                                <input
-                                    type="checkbox"
-                                    id={`department-${department.id}`}
-                                    name={`department-${department.id}`}
-                                    checked={filters.department.includes(
-                                        department.name
-                                    )}
-                                    onChange={() =>
-                                        onHandleCheckboxChange(
-                                            "department",
+                        <div className="items-container">
+                            {departments.map((department) => (
+                                <label
+                                    key={department.id}
+                                    className="dropdown-item"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        id={`department-${department.id}`}
+                                        name={`department-${department.id}`}
+                                        checked={selectedFilters.department.includes(
                                             department.name
-                                        )
-                                    }
-                                />
-                                {department.name}
-                            </label>
-                        ))}
+                                        )}
+                                        onChange={() =>
+                                            handleCheckboxChange(
+                                                "department",
+                                                department.name
+                                            )
+                                        }
+                                    />
+                                    {department.name}
+                                </label>
+                            ))}
+                        </div>
                         <button
                             className="confirm-button"
-                            onClick={onConfirmFilters}
+                            onClick={handleConfirmFilters}
                         >
                             დადასტურება
                         </button>
@@ -74,28 +97,33 @@ export default function Filters({
                 )}
                 {dropdowns.priority && (
                     <div className="dropdown">
-                        {priorities.map((priority) => (
-                            <label key={priority.id} className="dropdown-item">
-                                <input
-                                    type="checkbox"
-                                    id={`priority-${priority.id}`}
-                                    name={`priority-${priority.id}`}
-                                    checked={filters.priority.includes(
-                                        priority.name
-                                    )}
-                                    onChange={() =>
-                                        onHandleCheckboxChange(
-                                            "priority",
+                        <div className="items-container">
+                            {priorities.map((priority) => (
+                                <label
+                                    key={priority.id}
+                                    className="dropdown-item"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        id={`priority-${priority.id}`}
+                                        name={`priority-${priority.id}`}
+                                        checked={selectedFilters.priority.includes(
                                             priority.name
-                                        )
-                                    }
-                                />
-                                {priority.name}
-                            </label>
-                        ))}
+                                        )}
+                                        onChange={() =>
+                                            handleCheckboxChange(
+                                                "priority",
+                                                priority.name
+                                            )
+                                        }
+                                    />
+                                    {priority.name}
+                                </label>
+                            ))}
+                        </div>
                         <button
                             className="confirm-button"
-                            onClick={onConfirmFilters}
+                            onClick={handleConfirmFilters}
                         >
                             დადასტურება
                         </button>
@@ -103,28 +131,38 @@ export default function Filters({
                 )}
                 {dropdowns.employee && (
                     <div className="dropdown">
-                        {employees.map((employee) => (
-                            <label key={employee.id} className="dropdown-item">
-                                <input
-                                    type="checkbox"
-                                    id={`employee-${employee.id}`}
-                                    name={`employee-${employee.id}`}
-                                    checked={filters.employee.includes(
-                                        employee.name
-                                    )}
-                                    onChange={() =>
-                                        onHandleCheckboxChange(
-                                            "employee",
+                        <div className="items-container">
+                            {employees.map((employee) => (
+                                <label
+                                    key={employee.id}
+                                    className="dropdown-item"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        id={`employee-${employee.id}`}
+                                        name={`employee-${employee.id}`}
+                                        checked={selectedFilters.employee.includes(
                                             employee.name
-                                        )
-                                    }
-                                />
-                                {employee.name}
-                            </label>
-                        ))}
+                                        )}
+                                        onChange={() =>
+                                            handleCheckboxChange(
+                                                "employee",
+                                                employee.name
+                                            )
+                                        }
+                                    />
+                                    <img
+                                        src={employee.avatar}
+                                        alt={employee.name}
+                                        className="employee-avatar"
+                                    />
+                                    {employee.name}
+                                </label>
+                            ))}
+                        </div>
                         <button
                             className="confirm-button"
-                            onClick={onConfirmFilters}
+                            onClick={handleConfirmFilters}
                         >
                             დადასტურება
                         </button>

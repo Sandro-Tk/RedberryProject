@@ -9,16 +9,25 @@ export default function Navbar({ onOpenModal }) {
         navigate("/add-task");
     };
 
+    const handleLogoClick = () => {
+        navigate("/");
+    };
+
     return (
         <>
             <nav className="navbar">
-                <div className="navbar-left">
-                    <span className="nav-title">Momentum</span>
-                    <img
-                        src="icons/Hourglass.png"
-                        alt=""
-                        className="nav-icon"
-                    />
+                <div>
+                    <div className="navbar-left"
+                        style={{ cursor: "pointer" }}
+                        onClick={handleLogoClick}
+                    >
+                        <span className="nav-title">Momentum</span>
+                        <img
+                            src="icons/Hourglass.png"
+                            alt=""
+                            className="nav-icon"
+                        />
+                    </div>
                 </div>
                 <div className="navbar-right">
                     <button

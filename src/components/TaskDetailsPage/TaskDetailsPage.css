@@ -1,0 +1,127 @@
+.task-details-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.task-header {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.task-header h1 {
+    margin-top: 0;
+    font-size: 2rem;
+    color: #333;
+}
+
+.task-header p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.task-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.task-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.meta-title {
+    font-weight: bold;
+    color: #333;
+}
+
+.employee-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.employee-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.task-comments {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.task-comments h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.task-comments form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.task-comments textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.task-comments button {
+    align-self: flex-start;
+    padding: 10px 20px;
+    background-color: #8338ec;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.task-comments button:hover {
+    background-color: #6a2bbf;
+}
+
+.task-comments ul {
+    list-style: none;
+    padding: 0;
+}
+
+.task-comments li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+}
+
+.task-comments li p {
+    margin: 0;
+}
+
+.task-comments li span {
+    display: block;
+    font-size: 0.875rem;
+    color: #666;
+}

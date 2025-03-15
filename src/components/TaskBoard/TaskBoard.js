@@ -39,11 +39,11 @@ export default function TaskBoard({ filters }) {
     const filteredTasks = tasks.filter((task) => {
         return (
             (filters.department.length === 0 ||
-                filters.department.includes(task.department.id)) &&
+                filters.department.includes(task.department.name)) &&
             (filters.priority.length === 0 ||
-                filters.priority.includes(task.priority.id)) &&
+                filters.priority.includes(task.priority.name)) &&
             (filters.employee.length === 0 ||
-                filters.employee.includes(task.employee.id))
+                filters.employee.includes(task.employee.name))
         );
     });
 

@@ -5,6 +5,7 @@ import Filters from "./Filters/Filters";
 import TaskBoard from "./TaskBoard/TaskBoard";
 import Modal from "./Modal/Modal";
 import AddTaskPage from "./AddTaskPage/AddTaskPage";
+import TaskDetails from "./TaskDetailsPage/TaskDetailsPage";
 
 export const API_URL = "https://momentum.redberryinternship.ge/api";
 export const API_KEY = "9e6e66c9-7cf4-4758-9400-543b85e94bfb";
@@ -75,16 +76,19 @@ export default function App() {
         fetchData();
     }, []);
 
-    function handleDropdown(filterType) {
-        setDropdowns((prevDropdowns) => ({
-            department:
-                filterType === "department" ? !prevDropdowns.department : false,
-            priority:
-                filterType === "priority" ? !prevDropdowns.priority : false,
-            employee:
-                filterType === "employee" ? !prevDropdowns.employee : false,
-        }));
-    }
+    const handleDropdown = (type, value) => {
+        setDropdowns((prevDropdowns) => {
+            const newDropdowns = {
+                department: false,
+                priority: false,
+                employee: false,
+            };
+            return {
+                ...newDropdowns,
+                [type]: value !== undefined ? value : !prevDropdowns[type],
+            };
+        });
+    };
 
     function handleCheckboxChange(filterType, value) {
         setFilters((prevFilters) => {
@@ -98,13 +102,9 @@ export default function App() {
         });
     }
 
-    function handleConfirmFilters() {
-        setDropdowns({
-            department: false,
-            priority: false,
-            employee: false,
-        });
-    }
+    const handleConfirmFilters = (confirmedFilters) => {
+        setFilters(confirmedFilters);
+    };
 
     function addEmployee(newEmployee) {
         setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
@@ -141,6 +141,7 @@ export default function App() {
                     }
                 />
                 <Route path="/add-task" element={<AddTaskPage />} />
+                <Route path="/task/:taskId" element={<TaskDetails />} />
             </Routes>
         </Router>
     );
