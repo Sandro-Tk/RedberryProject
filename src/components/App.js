@@ -131,18 +131,18 @@ export default function App() {
                                 onConfirmFilters={handleConfirmFilters}
                             />
                             <TaskBoard tasks={tasks} filters={filters} />
-                            <Modal
-                                isOpen={isModalOpen}
-                                onClose={() => setIsModalOpen(false)}
-                                departments={departments}
-                                addEmployee={addEmployee}
-                            />
                         </>
                     }
                 />
                 <Route path="/add-task" element={<AddTaskPage />} />
                 <Route path="/task/:taskId" element={<TaskDetails />} />
             </Routes>
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                departments={departments}
+                addEmployee={addEmployee}
+            />
         </Router>
     );
 }

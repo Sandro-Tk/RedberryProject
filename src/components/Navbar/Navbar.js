@@ -16,18 +16,16 @@ export default function Navbar({ onOpenModal }) {
     return (
         <>
             <nav className="navbar">
-                <div>
-                    <div className="navbar-left"
-                        style={{ cursor: "pointer" }}
+                <div className="navbar-left" style={{ cursor: "pointer" }}>
+                    <span className="nav-title" onClick={handleLogoClick}>
+                        Momentum
+                    </span>
+                    <img
+                        src="icons/Hourglass.png"
+                        alt=""
+                        className="nav-icon"
                         onClick={handleLogoClick}
-                    >
-                        <span className="nav-title">Momentum</span>
-                        <img
-                            src="icons/Hourglass.png"
-                            alt=""
-                            className="nav-icon"
-                        />
-                    </div>
+                    />
                 </div>
                 <div className="navbar-right">
                     <button

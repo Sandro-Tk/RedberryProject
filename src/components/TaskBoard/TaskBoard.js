@@ -47,6 +47,13 @@ export default function TaskBoard({ filters }) {
         );
     });
 
+    const statusColors = {
+        დასაწყები: "#F4B740",
+        პროგრესში: "#EB5757",
+        "მზად ტესტირებისთვის": "#FF006E",
+        დასრულებული: "#2F80ED",
+    };
+
     return (
         <div className="task-board">
             {statuses.map((status) => (
@@ -56,6 +63,7 @@ export default function TaskBoard({ filters }) {
                     tasks={filteredTasks.filter(
                         (task) => task.status.id === status.id
                     )}
+                    titleColor={statusColors[status.name]}
                 />
             ))}
         </div>

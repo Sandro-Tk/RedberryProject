@@ -1,55 +1,82 @@
+/* General style */
 .task-details-page {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding: 20px;
-    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 20px auto;
+    margin: 40px 120px 376px 120px;
 }
 
-.task-header {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+/* information */
+.task-info {
+    display: flex;
+    flex-direction: column;
+    width: 715px;
+    height: 239px;
 }
 
-.task-header h1 {
-    margin-top: 0;
-    font-size: 2rem;
-    color: #333;
+.priority-container {
+    display: flex;
+    width: 212px;
+    gap: 18px;
 }
 
-.task-header p {
-    font-size: 1.2rem;
-    color: #666;
+.priority {
+    padding: 4px 5px;
+    display: flex;
+    border: solid 0.5px;
 }
 
-.task-meta {
+.priority-icon {
+    width: 18px;
+    height: 20px;
+}
+
+.department {
+    background-color: firebrick;
+    display: inline-block;
+    border-radius: 4px;
+    font-size: 1rem;
+    white-space: nowrap;
+    border-radius: 15px;
+    padding: 5px 10px;
+    color: white;
+}
+
+/* details */
+.task-details {
+    border: solid black 1px;
+    width: 493px;
+    height: 277px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-top: 63px;
 }
 
-.task-meta-item {
+.status,
+.employee,
+.deadline {
+    display: flex;
+    width: 493px;
+    height: 70px;
+    gap: 70px;
+}
+
+.status {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.meta-title {
-    font-weight: bold;
-    color: #333;
+.status select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
 }
 
-.employee-info {
+.employee {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -62,6 +89,7 @@
     object-fit: cover;
 }
 
+/* comments section */
 .task-comments {
     padding: 20px;
     background-color: #f9f9f9;
