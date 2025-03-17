@@ -1,28 +1,30 @@
+/* task page */
 .add-task-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: #f9f9f9;
 }
 
+/* title */
 .page-title {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    width: 1684px;
+    height: 41px;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 100%;
     text-align: center;
 }
 
+/* form */
 .task-form {
-    width: 100%;
-    max-width: 1000px;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 1684px;
+    height: 958px;
+    margin: 25px 118px 386px 118px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 20px;
+    background-color: #FBF9FFA6;
 }
 
 .form-left,
@@ -32,44 +34,144 @@
     gap: 20px;
 }
 
-.form-row {
-    display: flex;
-    gap: 20px;
+/* left side */
+.form-left {
+    width: 550px;
+    height: 674px;
+    margin-top: 65px;
+    margin-left: 55px;
+    gap: 55px;
 }
 
-.form-group {
+/* title */
+.form-title {
+    width: 550px;
+    height: 106px;
     display: flex;
     flex-direction: column;
 }
 
-.form-group label {
+.form-title label {
+    padding: 6px 0px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 100%;
     margin-bottom: 5px;
-    font-weight: bold;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.form-title input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
-    width: 100%;
 }
 
-.form-group textarea {
-    resize: vertical;
-    height: 100px;
-}
-
-.form-group small {
+.form-title small {
     margin-top: 5px;
-    color: #888;
 }
 
-.error {
-    color: red;
-    font-size: 0.875rem;
+/* description */
+.form-description {
+    width: 550px;
+    height: 194px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-description textarea {
+    width: 500px;
+    height: 133px;
+}
+
+.form-description label {
+    padding: 6px 0px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 100%;
+    margin-bottom: 5px;
+}
+
+/* priority and status */
+.form-row {
+    width: 550px;
+    height: 77px;
+    display: flex;
+    gap: 32px;
+}
+
+.form-priority {
+    width: 259px;
+    height: 77px;
+    display: grid;
+}
+
+.form-priority label {
+    padding: 6px 0px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.form-status {
+    width: 259px;
+    height: 77px;
+    display: grid;
+}
+
+.form-status label {
+    padding: 6px 0px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.form-status select {
+    height: 44px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+/* department */
+.form-department {
+    width: 550px;
+    height: 108px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 65px;
+}
+
+.form-department label {
+    padding: 6px 0px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.form-department select {
+    width: 550px;
+    height: 45px;
+    font-size: 1rem;
+    border: solid 1px #dee2e6;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* deadline */
+.form-deadline {
+    width: 320px;
+    height: 76px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 281px;
+}
+
+.form-deadline label {
+    padding: 6px 0px;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .submit-button {
@@ -86,4 +188,75 @@
 
 .submit-button:hover {
     background-color: #6a2bbf;
+}
+
+.error {
+    color: red;
+}
+
+.valid {
+    color: green;
+}
+
+.gray {
+    color: gray;
+}
+
+.custom-datepicker {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    height: 22px;
+}
+
+.react-datepicker {
+    font-family: Arial, sans-serif;
+}
+
+.react-datepicker__header {
+    background-color: #fff;
+    border-bottom: none;
+    height: 44px;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+    color: #333;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+    background-color: #6200ea;
+    color: #fff;
+}
+
+.react-datepicker__day--today {
+    font-weight: bold;
+}
+
+.react-datepicker__day:hover {
+    background-color: #f0f0f0;
+}
+
+.react-datepicker__day--outside-month {
+    color: #ccc;
+}
+
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next {
+    top: 10px;
+}
+
+.react-datepicker__navigation-icon::before {
+    border-color: #6200ea;
+}
+
+.react-datepicker__close-icon::after {
+    background-color: #6200ea;
+    color: #fff;
 }

@@ -33,7 +33,7 @@ export default function PriorityDropdown({ options, value, onChange }) {
     const selectedOption = options.find((option) => option.id === value);
 
     return (
-        <div className="priority-dropdown" ref={dropdownRef}>
+        <div className="priority-dropdown" id='priority-dropdown' ref={dropdownRef}>
             <div className="priority-select" onClick={handleToggle}>
                 {selectedOption ? (
                     <>

@@ -86,7 +86,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                     <h2>თანამშრომლის დამატება</h2>
                     <div className="forms-container">
                         <form className="form" onSubmit={handleSubmit}>
-                            <div className="form-row">
+                            <div className="form-row1">
                                 <div className="form-group">
                                     <label htmlFor="name">სახელი*</label>
                                     <input

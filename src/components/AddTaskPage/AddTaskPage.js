@@ -1,16 +1,31 @@
 import React, { useState, useEffect } from "react";
-import "./AddTaskPage.css";
 import { API_KEY, API_URL } from "../App";
+import { useNavigate } from "react-router-dom";
+import { addDays } from "date-fns";
+import "react-datepicker/dist/react-datepicker.css";
+import ge from "date-fns/locale/ka";
+import DatePicker from "react-datepicker";
+import { registerLocale } from "react-datepicker";
 import PriorityDropdown from "../PriorityDropdown/PriorityDropdown";
+import EmployeeDropdown from "../EmployeeDropdown/EmployeeDropdown";
+import "./AddTaskPage.css";
+
+registerLocale("ge", ge);
 
 export default function AddTaskPage() {
     const [descriptionError, setDescriptionError] = useState("");
     const [titleError, setTitleError] = useState("");
+    const [employeeError, setEmployeeError] = useState("");
     const [priorities, setPriorities] = useState([]);
     const [statuses, setStatuses] = useState([]);
     const [departments, setDepartments] = useState([]);
     const [employees, setEmployees] = useState([]);
     const [priority, setPriority] = useState("");
+    const [selectedDepartment, setSelectedDepartment] = useState("");
+    const [filteredEmployees, setFilteredEmployees] = useState([]);
+    const [selectedEmployee, setSelectedEmployee] = useState("");
+    const [dueDate, setDueDate] = useState(addDays(new Date(), 1));
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchData() {
@@ -67,26 +82,42 @@ export default function AddTaskPage() {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        if (selectedDepartment) {
+            const filtered = employees.filter(
+                (employee) =>
+                    employee.department.id === parseInt(selectedDepartment, 10)
+            );
+            setFilteredEmployees(filtered);
+        } else {
+            setFilteredEmployees([]);
+        }
+    }, [selectedDepartment, employees]);
+
     const handleTitleChange = (e) => {
         const value = e.target.value;
-        if (value.length < 2) {
+        if (value.length === 0) {
+            setTitleError("");
+        } else if (value.length < 2) {
             setTitleError("სათაური უნდა იყოს მინიმუმ 2 სიმბოლო");
         } else if (value.length > 255) {
             setTitleError("სათაური უნდა იყოს მაქსიმუმ 255 სიმბოლო");
         } else {
-            setTitleError("");
+            setTitleError("valid");
         }
     };
 
     const handleDescriptionChange = (e) => {
         const value = e.target.value;
         const wordCount = value.trim().split(/\s+/).length;
-        if (value && wordCount < 4) {
+        if (value.length === 0) {
+            setDescriptionError("");
+        } else if (wordCount < 4) {
             setDescriptionError("აღწერაში უნდა იყოს მინიმუმ 4 სიტყვა");
         } else if (value.length > 255) {
             setDescriptionError("აღწერა უნდა იყოს მაქსიმუმ 255 სიმბოლო");
         } else {
-            setDescriptionError("");
+            setDescriptionError("valid");
         }
     };
 
@@ -96,8 +127,14 @@ export default function AddTaskPage() {
         const taskTitle = e.target["task-title"].value;
         const taskDescription = e.target["task-description"].value;
         const status = e.target["status"].value;
-        const dueDate = e.target["due-date"].value;
-        const employee = e.target["assignee"].value;
+        const employee = selectedEmployee;
+
+        if (!employee) {
+            setEmployeeError("გთხოვთ აირჩიოთ თანამშრომელი");
+            return;
+        } else {
+            setEmployeeError("");
+        }
 
         if (taskDescription) {
             const wordCount = taskDescription.trim().split(/\s+/).length;
@@ -115,7 +152,7 @@ export default function AddTaskPage() {
         const taskData = {
             name: taskTitle,
             description: taskDescription,
-            due_date: dueDate,
+            due_date: dueDate ? dueDate.toISOString().split("T")[0] : null,
             status_id: status,
             employee_id: employee,
             priority_id: priority,
@@ -139,6 +176,7 @@ export default function AddTaskPage() {
             console.log("Task created successfully:", result);
 
             e.target.reset();
+            navigate("/"); // Redirect to the main page
         } catch (error) {
             console.error("Error creating task:", error);
         }
@@ -146,10 +184,10 @@ export default function AddTaskPage() {
 
     return (
         <div className="add-task-page">
-            <h1 className="page-title">შექმენი ახალი დავალება</h1>
+            <span className="page-title">შექმენი ახალი დავალება</span>
             <form className="task-form" onSubmit={handleSubmit}>
                 <div className="form-left">
-                    <div className="form-group">
+                    <div className="form-title">
                         <label htmlFor="task-title">სათაური*</label>
                         <input
                             type="text"
@@ -160,25 +198,61 @@ export default function AddTaskPage() {
                             required
                             onChange={handleTitleChange}
                         />
-                        <small>მინიმუმ 2 სიმბოლო მაქსიმუმ 255 სიმბოლო</small>
-                        {titleError && (
-                            <small className="error">{titleError}</small>
-                        )}
+                        <small
+                            className={
+                                titleError === ""
+                                    ? "gray"
+                                    : titleError === "valid"
+                                    ? "valid"
+                                    : "error"
+                            }
+                        >
+                            მინიმუმ 2 სიმბოლო
+                        </small>
+                        <small
+                            className={
+                                titleError === ""
+                                    ? "gray"
+                                    : titleError === "valid"
+                                    ? "valid"
+                                    : "error"
+                            }
+                        >
+                            მაქსიმუმ 255 სიმბოლო
+                        </small>
                     </div>
-                    <div className="form-group">
+                    <div className="form-description">
                         <label htmlFor="task-description">აღწერა</label>
                         <textarea
                             id="task-description"
                             name="task-description"
                             onChange={handleDescriptionChange}
                         ></textarea>
-                        <small>მინიმუმ 4 სიტყვა მაქსიმუმ 255 სიმბოლო</small>
-                        {descriptionError && (
-                            <small className="error">{descriptionError}</small>
-                        )}
+                        <small
+                            className={
+                                descriptionError === ""
+                                    ? "gray"
+                                    : descriptionError === "valid"
+                                    ? "valid"
+                                    : "error"
+                            }
+                        >
+                            მინიმუმ 4 სიტყვა
+                        </small>
+                        <small
+                            className={
+                                descriptionError === ""
+                                    ? "gray"
+                                    : descriptionError === "valid"
+                                    ? "valid"
+                                    : "error"
+                            }
+                        >
+                            მაქსიმუმ 255 სიმბოლო
+                        </small>
                     </div>
                     <div className="form-row">
-                        <div className="form-group">
+                        <div className="form-priority">
                             <label>პრიორიტეტი*</label>
                             <PriorityDropdown
                                 options={priorities}
@@ -186,7 +260,7 @@ export default function AddTaskPage() {
                                 onChange={(e) => setPriority(e.target.value)}
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-status">
                             <label htmlFor="status">სტატუსი*</label>
                             <select id="status" name="status" required>
                                 {statuses.map((status) => (
@@ -199,9 +273,17 @@ export default function AddTaskPage() {
                     </div>
                 </div>
                 <div className="form-right">
-                    <div className="form-group">
+                    <div className="form-department ">
                         <label htmlFor="department">დეპარტამენტი*</label>
-                        <select id="department" name="department" required>
+                        <select
+                            id="department"
+                            name="department"
+                            required
+                            onChange={(e) =>
+                                setSelectedDepartment(e.target.value)
+                            }
+                        >
+                            <option value="">აირჩიეთ დეპარტამენტი</option>
                             {departments.map((department) => (
                                 <option
                                     key={department.id}
@@ -211,22 +293,38 @@ export default function AddTaskPage() {
                                 </option>
                             ))}
                         </select>
+                        {selectedDepartment && (
+                            <div className="form-group">
+                                <label htmlFor="assignee">
+                                    პასუხისმგებელი თანამშრომელი*
+                                </label>
+                                <EmployeeDropdown
+                                    employees={filteredEmployees}
+                                    value={selectedEmployee}
+                                    onChange={(e) =>
+                                        setSelectedEmployee(e.target.value)
+                                    }
+                                />
+                                {employeeError && (
+                                    <small className="error">
+                                        {employeeError}
+                                    </small>
+                                )}
+                            </div>
+                        )}
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="assignee">
-                            პასუხისმგებელი თანამშრომელი*
-                        </label>
-                        <select id="assignee" name="assignee" required>
-                            {employees.map((employee) => (
-                                <option key={employee.id} value={employee.id}>
-                                    {employee.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="due-date">დედლაინი</label>
-                        <input type="date" id="due-date" name="due-date" />
+                    <div className="form-deadline">
+                        <label htmlFor="due-date">დედლაინი*</label>
+                        <DatePicker
+                            id="due-date"
+                            selected={dueDate}
+                            onChange={(date) => setDueDate(date)}
+                            dateFormat="dd/MM/yyyy"
+                            locale="ge"
+                            placeholderText="DD/MM/YYYY"
+                            className="custom-datepicker"
+                            minDate={new Date()} // Prevent past dates
+                        />
                     </div>
                 </div>
                 <button type="submit" className="submit-button">
