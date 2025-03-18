@@ -26,7 +26,7 @@ export default function Filters({
 
     const handleConfirmFilters = () => {
         onConfirmFilters(selectedFilters);
-        
+
         onHandleDropdown("department", false);
         onHandleDropdown("priority", false);
         onHandleDropdown("employee", false);
@@ -67,7 +67,7 @@ export default function Filters({
                             {departments.map((department) => (
                                 <label
                                     key={department.id}
-                                    className="dropdown-item"
+                                    className="checkbox-container"
                                 >
                                     <input
                                         type="checkbox"
@@ -83,6 +83,7 @@ export default function Filters({
                                             )
                                         }
                                     />
+                                    <span className="custom-checkbox"></span>
                                     {department.name}
                                 </label>
                             ))}
@@ -91,7 +92,7 @@ export default function Filters({
                             className="confirm-button"
                             onClick={handleConfirmFilters}
                         >
-                            დადასტურება
+                            არჩევა
                         </button>
                     </div>
                 )}
@@ -101,7 +102,7 @@ export default function Filters({
                             {priorities.map((priority) => (
                                 <label
                                     key={priority.id}
-                                    className="dropdown-item"
+                                    className="checkbox-container"
                                 >
                                     <input
                                         type="checkbox"
@@ -117,6 +118,7 @@ export default function Filters({
                                             )
                                         }
                                     />
+                                    <span className="custom-checkbox"></span>
                                     {priority.name}
                                 </label>
                             ))}
@@ -125,7 +127,7 @@ export default function Filters({
                             className="confirm-button"
                             onClick={handleConfirmFilters}
                         >
-                            დადასტურება
+                            არჩევა
                         </button>
                     </div>
                 )}
@@ -135,7 +137,7 @@ export default function Filters({
                             {employees.map((employee) => (
                                 <label
                                     key={employee.id}
-                                    className="dropdown-item"
+                                    className="checkbox-container"
                                 >
                                     <input
                                         type="checkbox"
@@ -151,6 +153,7 @@ export default function Filters({
                                             )
                                         }
                                     />
+                                    <span className="custom-checkbox"></span>
                                     <img
                                         src={employee.avatar}
                                         alt={employee.name}
@@ -164,7 +167,7 @@ export default function Filters({
                             className="confirm-button"
                             onClick={handleConfirmFilters}
                         >
-                            დადასტურება
+                            არჩევა
                         </button>
                     </div>
                 )}

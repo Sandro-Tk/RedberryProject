@@ -2,17 +2,38 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./TaskBoard";
 
-export default function TaskCard({ task }) {
+export default function TaskCard({ task, borderColor }) {
     const navigate = useNavigate();
 
     const handleClick = () => {
         navigate(`/task/${task.id}`);
     };
 
+    const priorityClassMap = {
+        დაბალი: "priority-low",
+        საშუალო: "priority-medium",
+        მაღალი: "priority-high",
+    };
+
+    const truncateDescription = (description) => {
+        if (description.length > 100) {
+            return description.substring(0, 100) + "...";
+        }
+        return description;
+    };
+
     return (
-        <div className="task-card" onClick={handleClick} >
+        <div
+            className="task-card"
+            style={{ borderColor }}
+            onClick={handleClick}
+        >
             <div className="task-header">
-                <span className="tag priority">
+                <span
+                    className={`tag priority ${
+                        priorityClassMap[task.priority.name]
+                    }`}
+                >
                     <img src={task.priority.icon} alt={task.priority.name} />
                     {task.priority.name}
                 </span>
@@ -21,8 +42,8 @@ export default function TaskCard({ task }) {
                     {new Date(task.due_date).toLocaleDateString()}
                 </span>
             </div>
-            <h4>{task.name}</h4>
-            <p>{task.description}</p>
+            <p className="task-name">{task.name}</p>
+            <p className="task-description">{truncateDescription(task.description)}</p>
             <div className="task-footer">
                 <img
                     src={task.employee.avatar}

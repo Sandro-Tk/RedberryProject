@@ -1,9 +1,10 @@
 /* Task Board */
 .task-board {
+    width: 1680px;
+    margin-left: 120px;
     display: flex;
-    gap: 20px;
-    padding: 20px;
-    background-color: #f9f9f9;
+    gap: 52px;
+    padding-top: 80px;
 }
 
 /* Task Column */
@@ -11,7 +12,6 @@
     flex: 1;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
@@ -20,51 +20,90 @@
     padding: 10px;
     color: white;
     text-align: center;
-    background-color: #333;
+    border-radius: 10px;
 }
 
 .task-list {
-    padding: 10px;
+    border-radius: 15px;
+    margin-top: 30px;
 }
 
 /* Task Card */
 .task-card {
-    cursor: pointer;
+    height: 175px;
     background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    margin-top: 10px;
     border: 1px solid #ddd;
-    margin-bottom: 10px;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.task-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #191919;
+}
+
+.task-description {
+    font-size: 14px;
+    font-weight: 400;
 }
 
 /* Task Header */
 .task-header {
+    width: 341px;
+    height: 26px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.tag {
+/* priority */
+.tag.priority {
+    margin-right: 10px;
     display: inline-flex;
     align-items: center;
-    padding: 5px 10px;
+    gap: 4px;
+    width: 76px;
+    height: 26px;
+    padding: 4px;
     border-radius: 4px;
     font-size: 0.875rem;
     color: white;
 }
 
-.tag.priority {
-    background-color: #f7bc30;
+.tag.priority-low {
+    border-color: #08a508;
+    color: #08a508;
 }
 
+.tag.priority-medium {
+    border-color: #ffbe0b;
+    color: #ffbe0b;
+}
+
+.tag.priority-high {
+    border-color: #fa4d4d;
+    color: #fa4d4d;
+}
+
+/* department */
 .tag.department {
     background-color: #3a86ff;
+    width: 120px;
+    height: 24px;
+    font-size: 12px;
+    line-height: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-content: space-around;
 }
 
+/* deadline */
 .due-date {
+    margin-left: 31px;
     font-size: 0.875rem;
     color: #888;
 }
@@ -74,7 +113,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 28px;
 }
 
 .user-avatar {

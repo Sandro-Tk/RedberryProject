@@ -294,8 +294,8 @@ export default function AddTaskPage() {
                             ))}
                         </select>
                         {selectedDepartment && (
-                            <div className="form-group">
-                                <label htmlFor="assignee">
+                            <div className="form-employee">
+                                <label htmlFor="employee-dropdown">
                                     პასუხისმგებელი თანამშრომელი*
                                 </label>
                                 <EmployeeDropdown
@@ -323,7 +323,7 @@ export default function AddTaskPage() {
                             locale="ge"
                             placeholderText="DD/MM/YYYY"
                             className="custom-datepicker"
-                            minDate={new Date()} // Prevent past dates
+                            minDate={new Date()} 
                         />
                     </div>
                 </div>
