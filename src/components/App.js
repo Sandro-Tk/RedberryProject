@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Route,
+    Routes,
+    useLocation,
+} from "react-router-dom";
 import Navbar from "./Navbar/Navbar";
 import Filters from "./Filters/Filters";
 import TaskBoard from "./TaskBoard/TaskBoard";
@@ -8,17 +13,22 @@ import AddTaskPage from "./AddTaskPage/AddTaskPage";
 import TaskDetails from "./TaskDetailsPage/TaskDetailsPage";
 
 export const API_URL = "https://momentum.redberryinternship.ge/api";
-export const API_KEY = "9e6e66c9-7cf4-4758-9400-543b85e94bfb";
+export const API_KEY = "9e78590f-e369-4c0b-bbc9-277cd9752fd1";
 
-export default function App() {
+function AppContent() {
     const [tasks, setTasks] = useState([]);
     const [departments, setDepartments] = useState([]);
     const [priorities, setPriorities] = useState([]);
     const [employees, setEmployees] = useState([]);
-    const [filters, setFilters] = useState({
-        department: [],
-        priority: [],
-        employee: [],
+    const [filters, setFilters] = useState(() => {
+        const savedFilters = localStorage.getItem("selectedFilters");
+        return savedFilters
+            ? JSON.parse(savedFilters)
+            : {
+                  department: [],
+                  priority: [],
+                  employee: [],
+              };
     });
     const [dropdowns, setDropdowns] = useState({
         department: false,
@@ -26,6 +36,8 @@ export default function App() {
         employee: false,
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const location = useLocation();
 
     // API calls
     useEffect(() => {
@@ -76,6 +88,22 @@ export default function App() {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            localStorage.setItem("selectedFilters", JSON.stringify(filters));
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, [filters]);
+
+    useEffect(() => {
+        localStorage.removeItem("selectedFilters");
+    }, [location]);
+
     const handleDropdown = (type, value) => {
         setDropdowns((prevDropdowns) => {
             const newDropdowns = {
@@ -90,20 +118,12 @@ export default function App() {
         });
     };
 
-    function handleCheckboxChange(filterType, value) {
-        setFilters((prevFilters) => {
-            const newFilterValues = prevFilters[filterType].includes(value)
-                ? prevFilters[filterType].filter((item) => item !== value)
-                : [...prevFilters[filterType], value];
-            return {
-                ...prevFilters,
-                [filterType]: newFilterValues,
-            };
-        });
-    }
-
     const handleConfirmFilters = (confirmedFilters) => {
         setFilters(confirmedFilters);
+        localStorage.setItem(
+            "selectedFilters",
+            JSON.stringify(confirmedFilters)
+        );
     };
 
     function addEmployee(newEmployee) {
@@ -111,7 +131,7 @@ export default function App() {
     }
 
     return (
-        <Router>
+        <>
             <Navbar onOpenModal={() => setIsModalOpen(true)} />
             <Routes>
                 <Route
@@ -127,7 +147,6 @@ export default function App() {
                                 priorities={priorities}
                                 employees={employees}
                                 onHandleDropdown={handleDropdown}
-                                onHandleCheckboxChange={handleCheckboxChange}
                                 onConfirmFilters={handleConfirmFilters}
                             />
                             <TaskBoard tasks={tasks} filters={filters} />
@@ -143,6 +162,14 @@ export default function App() {
                 departments={departments}
                 addEmployee={addEmployee}
             />
+        </>
+    );
+}
+
+export default function App() {
+    return (
+        <Router>
+            <AppContent />
         </Router>
     );
 }

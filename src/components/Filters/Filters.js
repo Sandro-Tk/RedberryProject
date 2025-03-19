@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, } from "react";
 import "./Filters.css";
 
 export default function Filters({
@@ -10,16 +10,27 @@ export default function Filters({
     onHandleDropdown,
     onConfirmFilters,
 }) {
-    const [selectedFilters, setSelectedFilters] = useState(filters);
+    const [selectedFilters, setSelectedFilters] = useState(() => {
+        const savedFilters = localStorage.getItem("selectedFilters");
+        return savedFilters ? JSON.parse(savedFilters) : filters;
+    });
 
     const handleCheckboxChange = (type, value) => {
         const updatedFilters = { ...selectedFilters };
-        if (updatedFilters[type].includes(value)) {
-            updatedFilters[type] = updatedFilters[type].filter(
-                (item) => item !== value
-            );
+        if (type === "employee") {
+            if (updatedFilters[type].includes(value)) {
+                updatedFilters[type] = [];
+            } else {
+                updatedFilters[type] = [value];
+            }
         } else {
-            updatedFilters[type].push(value);
+            if (updatedFilters[type].includes(value)) {
+                updatedFilters[type] = updatedFilters[type].filter(
+                    (item) => item !== value
+                );
+            } else {
+                updatedFilters[type].push(value);
+            }
         }
         setSelectedFilters(updatedFilters);
     };
@@ -142,14 +153,14 @@ export default function Filters({
                                     <input
                                         type="checkbox"
                                         id={`employee-${employee.id}`}
-                                        name={`employee-${employee.id}`}
+                                        name="employee"
                                         checked={selectedFilters.employee.includes(
-                                            employee.name
+                                            employee.id
                                         )}
                                         onChange={() =>
                                             handleCheckboxChange(
                                                 "employee",
-                                                employee.name
+                                                employee.id
                                             )
                                         }
                                     />
@@ -159,7 +170,7 @@ export default function Filters({
                                         alt={employee.name}
                                         className="employee-avatar"
                                     />
-                                    {employee.name}
+                                    {employee.name} {employee.surname}
                                 </label>
                             ))}
                         </div>

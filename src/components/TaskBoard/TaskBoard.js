@@ -43,7 +43,7 @@ export default function TaskBoard({ filters }) {
             (filters.priority.length === 0 ||
                 filters.priority.includes(task.priority.name)) &&
             (filters.employee.length === 0 ||
-                filters.employee.includes(task.employee.name))
+                filters.employee.includes(task.employee.id))
         );
     });
 

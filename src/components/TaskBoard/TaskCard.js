@@ -15,7 +15,18 @@ export default function TaskCard({ task, borderColor }) {
         მაღალი: "priority-high",
     };
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const options = { month: "short", day: "numeric", year: "numeric" };
+        const formattedDate = date.toLocaleDateString("ka-GE", options);
+        const [day, month, year] = formattedDate.split(' ');
+        return `${month} ${day}, ${year}`;
+    };
+
     const truncateDescription = (description) => {
+        if (!description) {
+            return "";
+        }
         if (description.length > 100) {
             return description.substring(0, 100) + "...";
         }
@@ -39,11 +50,13 @@ export default function TaskCard({ task, borderColor }) {
                 </span>
                 <span className="tag department">{task.department.name}</span>
                 <span className="due-date">
-                    {new Date(task.due_date).toLocaleDateString()}
+                    {formatDate(task.due_date)}
                 </span>
             </div>
             <p className="task-name">{task.name}</p>
-            <p className="task-description">{truncateDescription(task.description)}</p>
+            <span className="task-description">
+                {truncateDescription(task.description)}
+            </span>
             <div className="task-footer">
                 <img
                     src={task.employee.avatar}
