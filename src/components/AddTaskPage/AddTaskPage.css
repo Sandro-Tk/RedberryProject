@@ -14,7 +14,6 @@
     font-size: 34px;
     font-weight: 600;
     line-height: 100%;
-    text-align: center;
 }
 
 /* form */
@@ -27,17 +26,17 @@
     background-color: #fbf9ffa6;
 }
 
-.form-left,
-.form-right {
+.form-1,
+.form-2 {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
 /* left side */
-.form-left {
+.form-1 {
     width: 550px;
-    height: 674px;
+    height: 500px;
     margin-top: 65px;
     margin-left: 55px;
     gap: 55px;
@@ -61,9 +60,9 @@
 
 .form-title input {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
 .form-title small {
@@ -79,8 +78,10 @@
 }
 
 .form-description textarea {
-    width: 500px;
+    width: 544px;
     height: 133px;
+    border-radius: 5px;
+    border: solid 1px #dee2e6;
 }
 
 .form-description label {
@@ -126,9 +127,9 @@
 .form-status select {
     height: 44px;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #dee2e6;
     border-radius: 4px;
-    font-size: 1rem;
+    font-size: 16px;
     background: white;
     cursor: pointer;
     display: flex;
@@ -153,7 +154,7 @@
 .form-department select {
     width: 550px;
     height: 45px;
-    font-size: 1rem;
+    font-size: 16px;
     border: solid 1px #dee2e6;
     border-radius: 5px;
     padding: 10px;
@@ -199,16 +200,12 @@
     text-align: center;
 }
 
-.submit-button:hover {
-    background-color: #6a2bbf;
-}
-
 .error {
-    color: red;
+    color: #fa4d4d;
 }
 
 .valid {
-    color: green;
+    color: #08a508;
 }
 
 .gray {
@@ -218,7 +215,7 @@
 .custom-datepicker {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #dee2e6;
     border-radius: 4px;
     font-size: 16px;
     color: #333;

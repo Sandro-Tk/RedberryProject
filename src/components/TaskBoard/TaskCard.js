@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./TaskBoard";
 
-export default function TaskCard({ task, borderColor }) {
+export default function TaskCard({ task, borderColor, departmentColor }) {
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -19,7 +19,7 @@ export default function TaskCard({ task, borderColor }) {
         const date = new Date(dateString);
         const options = { month: "short", day: "numeric", year: "numeric" };
         const formattedDate = date.toLocaleDateString("ka-GE", options);
-        const [day, month, year] = formattedDate.split(' ');
+        const [day, month, year] = formattedDate.split(" ");
         return `${month} ${day}, ${year}`;
     };
 
@@ -48,10 +48,13 @@ export default function TaskCard({ task, borderColor }) {
                     <img src={task.priority.icon} alt={task.priority.name} />
                     {task.priority.name}
                 </span>
-                <span className="tag department">{task.department.name}</span>
-                <span className="due-date">
-                    {formatDate(task.due_date)}
+                <span
+                    className="tag department"
+                    style={{ backgroundColor: departmentColor }}
+                >
+                    {task.department.name}
                 </span>
+                <span className="due-date">{formatDate(task.due_date)}</span>
             </div>
             <p className="task-name">{task.name}</p>
             <span className="task-description">

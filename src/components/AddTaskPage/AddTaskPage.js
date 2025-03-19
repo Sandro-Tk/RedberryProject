@@ -14,17 +14,31 @@ registerLocale("ge", ge);
 
 export default function AddTaskPage() {
     const [descriptionError, setDescriptionError] = useState("");
+    const [descriptionMaxError, setDescriptionMaxError] = useState("");
     const [titleError, setTitleError] = useState("");
+    const [titleMaxError, setTitleMaxError] = useState("");
     const [employeeError, setEmployeeError] = useState("");
     const [priorities, setPriorities] = useState([]);
     const [statuses, setStatuses] = useState([]);
     const [departments, setDepartments] = useState([]);
     const [employees, setEmployees] = useState([]);
-    const [priority, setPriority] = useState("");
-    const [selectedDepartment, setSelectedDepartment] = useState("");
+    const [priority, setPriority] = useState(
+        localStorage.getItem("priority") || ""
+    );
+    const [selectedDepartment, setSelectedDepartment] = useState(
+        localStorage.getItem("selectedDepartment") || ""
+    );
     const [filteredEmployees, setFilteredEmployees] = useState([]);
-    const [selectedEmployee, setSelectedEmployee] = useState("");
+    const [selectedEmployee, setSelectedEmployee] = useState(
+        localStorage.getItem("selectedEmployee") || ""
+    );
     const [dueDate, setDueDate] = useState(addDays(new Date(), 1));
+    const [taskTitle, setTaskTitle] = useState(
+        localStorage.getItem("taskTitle") || ""
+    );
+    const [taskDescription, setTaskDescription] = useState(
+        localStorage.getItem("taskDescription") || ""
+    );
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -94,38 +108,78 @@ export default function AddTaskPage() {
         }
     }, [selectedDepartment, employees]);
 
+    useEffect(() => {
+        localStorage.setItem("taskTitle", taskTitle);
+    }, [taskTitle]);
+
+    useEffect(() => {
+        localStorage.setItem("taskDescription", taskDescription);
+    }, [taskDescription]);
+
+    useEffect(() => {
+        localStorage.setItem("priority", priority);
+    }, [priority]);
+
+    useEffect(() => {
+        localStorage.setItem("selectedDepartment", selectedDepartment);
+    }, [selectedDepartment]);
+
+    useEffect(() => {
+        localStorage.setItem("selectedEmployee", selectedEmployee);
+    }, [selectedEmployee]);
+
     const handleTitleChange = (e) => {
         const value = e.target.value;
+        setTaskTitle(value);
         if (value.length === 0) {
             setTitleError("");
-        } else if (value.length < 2) {
-            setTitleError("სათაური უნდა იყოს მინიმუმ 2 სიმბოლო");
+            setTitleMaxError("");
+        } else if (value.length < 3) {
+            setTitleError("სათაური უნდა იყოს მინიმუმ 3 სიმბოლო");
+            setTitleMaxError("");
         } else if (value.length > 255) {
-            setTitleError("სათაური უნდა იყოს მაქსიმუმ 255 სიმბოლო");
+            setTitleMaxError("სათაური უნდა იყოს მაქსიმუმ 255 სიმბოლო");
+            setTitleError("valid");
         } else {
             setTitleError("valid");
+            setTitleMaxError("valid");
         }
     };
 
     const handleDescriptionChange = (e) => {
         const value = e.target.value;
+        setTaskDescription(value);
         const wordCount = value.trim().split(/\s+/).length;
         if (value.length === 0) {
             setDescriptionError("");
+            setDescriptionMaxError("");
         } else if (wordCount < 4) {
             setDescriptionError("აღწერაში უნდა იყოს მინიმუმ 4 სიტყვა");
+            setDescriptionMaxError("");
         } else if (value.length > 255) {
-            setDescriptionError("აღწერა უნდა იყოს მაქსიმუმ 255 სიმბოლო");
+            setDescriptionMaxError("აღწერა უნდა იყოს მაქსიმუმ 255 სიმბოლო");
+            setDescriptionError("valid");
         } else {
             setDescriptionError("valid");
+            setDescriptionMaxError("valid");
         }
+    };
+
+    const handlePriorityChange = (e) => {
+        setPriority(e.target.value);
+    };
+
+    const handleDepartmentChange = (e) => {
+        setSelectedDepartment(e.target.value);
+    };
+
+    const handleEmployeeChange = (e) => {
+        setSelectedEmployee(e.target.value);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const taskTitle = e.target["task-title"].value;
-        const taskDescription = e.target["task-description"].value;
         const status = e.target["status"].value;
         const employee = selectedEmployee;
 
@@ -142,11 +196,12 @@ export default function AddTaskPage() {
                 setDescriptionError("აღწერაში უნდა იყოს მინიმუმ 4 სიტყვა");
                 return;
             } else if (taskDescription.length > 255) {
-                setDescriptionError("აღწერა უნდა იყოს მაქსიმუმ 255 სიმბოლო");
+                setDescriptionMaxError("აღწერა უნდა იყოს მაქსიმუმ 255 სიმბოლო");
                 return;
             }
         } else {
             setDescriptionError("");
+            setDescriptionMaxError("");
         }
 
         const taskData = {
@@ -176,6 +231,11 @@ export default function AddTaskPage() {
             console.log("Task created successfully:", result);
 
             e.target.reset();
+            localStorage.removeItem("taskTitle");
+            localStorage.removeItem("taskDescription");
+            localStorage.removeItem("priority");
+            localStorage.removeItem("selectedDepartment");
+            localStorage.removeItem("selectedEmployee");
             navigate("/");
         } catch (error) {
             console.error("Error creating task:", error);
@@ -186,7 +246,7 @@ export default function AddTaskPage() {
         <div className="add-task-page">
             <span className="page-title">შექმენი ახალი დავალება</span>
             <form className="task-form" onSubmit={handleSubmit}>
-                <div className="form-left">
+                <div className="form-1">
                     <div className="form-title">
                         <label htmlFor="task-title">სათაური*</label>
                         <input
@@ -196,6 +256,7 @@ export default function AddTaskPage() {
                             minLength="2"
                             maxLength="255"
                             required
+                            value={taskTitle}
                             onChange={handleTitleChange}
                         />
                         <small
@@ -207,13 +268,13 @@ export default function AddTaskPage() {
                                     : "error"
                             }
                         >
-                            მინიმუმ 2 სიმბოლო
+                            მინიმუმ 3 სიმბოლო
                         </small>
                         <small
                             className={
-                                titleError === ""
+                                titleMaxError === ""
                                     ? "gray"
-                                    : titleError === "valid"
+                                    : titleMaxError === "valid"
                                     ? "valid"
                                     : "error"
                             }
@@ -226,6 +287,7 @@ export default function AddTaskPage() {
                         <textarea
                             id="task-description"
                             name="task-description"
+                            value={taskDescription}
                             onChange={handleDescriptionChange}
                         ></textarea>
                         <small
@@ -241,9 +303,9 @@ export default function AddTaskPage() {
                         </small>
                         <small
                             className={
-                                descriptionError === ""
+                                descriptionMaxError === ""
                                     ? "gray"
-                                    : descriptionError === "valid"
+                                    : descriptionMaxError === "valid"
                                     ? "valid"
                                     : "error"
                             }
@@ -257,7 +319,7 @@ export default function AddTaskPage() {
                             <PriorityDropdown
                                 options={priorities}
                                 value={priority}
-                                onChange={(e) => setPriority(e.target.value)}
+                                onChange={handlePriorityChange}
                             />
                         </div>
                         <div className="form-status">
@@ -272,16 +334,15 @@ export default function AddTaskPage() {
                         </div>
                     </div>
                 </div>
-                <div className="form-right">
+                <div className="form-2">
                     <div className="form-department ">
                         <label htmlFor="department">დეპარტამენტი*</label>
                         <select
                             id="department"
                             name="department"
                             required
-                            onChange={(e) =>
-                                setSelectedDepartment(e.target.value)
-                            }
+                            value={selectedDepartment}
+                            onChange={handleDepartmentChange}
                         >
                             <option value="">აირჩიეთ დეპარტამენტი</option>
                             {departments.map((department) => (
@@ -301,9 +362,7 @@ export default function AddTaskPage() {
                                 <EmployeeDropdown
                                     employees={filteredEmployees}
                                     value={selectedEmployee}
-                                    onChange={(e) =>
-                                        setSelectedEmployee(e.target.value)
-                                    }
+                                    onChange={handleEmployeeChange}
                                 />
                                 {employeeError && (
                                     <small className="error">

@@ -8,6 +8,41 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
     const [departmentId, setDepartmentId] = useState("");
     const [avatar, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+    const [nameError, setNameError] = useState("");
+    const [surnameError, setSurnameError] = useState("");
+    const [nameMaxError, setNameMaxError] = useState("");
+    const [surnameMaxError, setSurnameMaxError] = useState("");
+
+    const validateInput = (value, setError, setMaxError) => {
+        if (value.length === 0) {
+            setError("");
+            setMaxError("");
+        } else if (value.length < 2) {
+            setError("მინიმუმ 2 სიმბოლო");
+            setMaxError("");
+        } else if (value.length > 255) {
+            setMaxError("მაქსიმუმ 255 სიმბოლო");
+            setError("valid");
+        } else if (!/^[a-zA-Zა-ჰ]*$/.test(value)) {
+            setError("მხოლოდ ლათინური და ქართული ასოები");
+            setMaxError("");
+        } else {
+            setError("valid");
+            setMaxError("valid");
+        }
+    };
+
+    const handleNameChange = (e) => {
+        const value = e.target.value;
+        setName(value);
+        validateInput(value, setNameError, setNameMaxError);
+    };
+
+    const handleLastnameChange = (e) => {
+        const value = e.target.value;
+        setLastname(value);
+        validateInput(value, setSurnameError, setSurnameMaxError);
+    };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -32,7 +67,6 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // creating a formdata object to add the avatar
         const formData = new FormData();
         formData.append("name", name);
         formData.append("surname", surname);
@@ -51,8 +85,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
             if (response.ok) {
                 const newEmployee = await response.json();
                 addEmployee(newEmployee);
-                alert("Employee created successfully!");
-                onClose();
+                handleClose();
             } else {
                 const errorText = await response.text();
                 console.error("Failed to create employee:", errorText);
@@ -64,10 +97,23 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
         }
     };
 
+    const handleClose = () => {
+        setName("");
+        setLastname("");
+        setDepartmentId("");
+        setImage(null);
+        setImagePreview(null);
+        setNameError("");
+        setSurnameError("");
+        setNameMaxError("");
+        setSurnameMaxError("");
+        onClose();
+    };
+
     useEffect(() => {
         const handleEsc = (event) => {
             if (event.keyCode === 27) {
-                onClose();
+                handleClose();
             }
         };
         window.addEventListener("keydown", handleEsc);
@@ -75,15 +121,21 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
         return () => {
             window.removeEventListener("keydown", handleEsc);
         };
-    }, [onClose]);
+    }, []);
+
+    useEffect(() => {
+        if (!isOpen) {
+            handleClose();
+        }
+    }, [isOpen]);
 
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-overlay" onClick={handleClose}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="forms">
-                    <h2>თანამშრომლის დამატება</h2>
+                    <span className="modal-title">თანამშრომლის დამატება</span>
                     <div className="forms-container">
                         <form className="form" onSubmit={handleSubmit}>
                             <div className="form-row1">
@@ -95,12 +147,33 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                         name="name"
                                         minLength="2"
                                         maxLength="255"
+                                        pattern="[a-zA-Zა-ჰ]*"
                                         value={name}
-                                        onChange={(e) =>
-                                            setName(e.target.value)
-                                        }
+                                        onChange={handleNameChange}
                                         required
                                     />
+                                    <small
+                                        className={
+                                            nameError === ""
+                                                ? "gray"
+                                                : nameError === "valid"
+                                                ? "valid"
+                                                : "error"
+                                        }
+                                    >
+                                        მინიმუმ 2 სიმბოლო
+                                    </small>
+                                    <small
+                                        className={
+                                            nameMaxError === ""
+                                                ? "gray"
+                                                : nameMaxError === "valid"
+                                                ? "valid"
+                                                : "error"
+                                        }
+                                    >
+                                        მაქსიმუმ 255 სიმბოლო
+                                    </small>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="lastname">გვარი*</label>
@@ -110,15 +183,36 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                         name="lastname"
                                         minLength="2"
                                         maxLength="255"
+                                        pattern="[a-zA-Zა-ჰ]*"
                                         value={surname}
-                                        onChange={(e) =>
-                                            setLastname(e.target.value)
-                                        }
+                                        onChange={handleLastnameChange}
                                         required
                                     />
+                                    <small
+                                        className={
+                                            surnameError === ""
+                                                ? "gray"
+                                                : surnameError === "valid"
+                                                ? "valid"
+                                                : "error"
+                                        }
+                                    >
+                                        მინიმუმ 2 სიმბოლო
+                                    </small>
+                                    <small
+                                        className={
+                                            surnameMaxError === ""
+                                                ? "gray"
+                                                : surnameMaxError === "valid"
+                                                ? "valid"
+                                                : "error"
+                                        }
+                                    >
+                                        მაქსიმუმ 255 სიმბოლო
+                                    </small>
                                 </div>
                             </div>
-                            <div className="form-group">
+                            <div className="form-row2">
                                 <label htmlFor="photo">ავატარი*</label>
                                 <div className="upload-photo">
                                     <input
@@ -155,7 +249,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                     </label>
                                 </div>
                             </div>
-                            <div className="form-group">
+                            <div className="form-row3">
                                 <label htmlFor="department">
                                     დეპარტამენტი*
                                 </label>
@@ -182,14 +276,16 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                 </select>
                             </div>
                             <div className="form-actions">
-                                <button type="button" onClick={onClose}>
-                                    დახურვა
+                                <button type="button" onClick={handleClose}>
+                                    გაუქმება
                                 </button>
-                                <button type="submit">შენახვა</button>
+                                <button type="submit">
+                                    დაამატე თანამშრომელი
+                                </button>
                             </div>
                         </form>
                     </div>
-                    <button className="close-button" onClick={onClose}>
+                    <button className="close-button" onClick={handleClose}>
                         ×
                     </button>
                 </div>

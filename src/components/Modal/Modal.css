@@ -13,14 +13,27 @@
     z-index: 1000;
 }
 
+label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
 .modal-content {
     background: white;
     padding: 40px;
     border-radius: 10px;
     position: relative;
-    width: 800px;
-    max-width: 90%;
-    box-sizing: border-box;
+    width: 833px;
+    height: 686px;
+}
+
+.modal-title {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 45px;
+    font-size: 32px;
+    color: #212529;
+    font-weight: 600;
 }
 
 .close-button {
@@ -34,20 +47,22 @@
     color: black;
 }
 
-.forms-container {
+.forms {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    height: 590px;
+    margin-top: 77px;
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 45px;
 }
 
 .form-row1 {
     display: flex;
+    height: max-content;
     gap: 20px;
     flex-wrap: wrap;
 }
@@ -57,6 +72,10 @@
     flex-direction: column;
     gap: 5px;
     flex: 1;
+}
+
+.form-group small {
+    font-size: 10px;
 }
 
 .form-group input,
@@ -70,13 +89,18 @@
     box-sizing: border-box;
 }
 
+.form-row2 {
+    height: max-content;
+}
+
 .upload-photo {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px dashed #dee2e6;
-    border-radius: 5px;
-    padding: 20px;
+    height: 120px;
+    margin-top: 5px;
+    border: 1px dashed #ced4da;
+    border-radius: 8px;
     cursor: pointer;
     text-align: center;
     position: relative;
@@ -102,6 +126,18 @@
     object-fit: cover;
 }
 
+.form-row3 {
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row3 select {
+    height: 42px;
+    width: 384px;
+    border-radius: 6px;
+}
+
 .delete-button {
     position: absolute;
     bottom: 0;
@@ -116,10 +152,18 @@
 .form-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 22px;
 }
 
 .form-actions button {
+    background-color: white;
+    border: 1px solid #8338ec;
+    border-radius: 5px;
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+.form-actions button[type="submit"] {
     padding: 10px 20px;
     background-color: #8338ec;
     color: white;
@@ -128,7 +172,14 @@
     cursor: pointer;
 }
 
-.form-actions button[type="button"] {
-    background-color: #ccc;
-    color: black;
+.gray {
+    color: gray;
+}
+
+.valid {
+    color: #08a508;
+}
+
+.error {
+    color: #fa4d4d;
 }

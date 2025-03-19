@@ -54,6 +54,16 @@ export default function TaskBoard({ filters }) {
         დასრულებული: "#2F80ED",
     };
 
+    const departmentColors = {
+        1: "#89B6FF",
+        2: "#FD9A6A",
+        3: "#FF66A8",
+        4: "#FFD86D",
+        5: "#89B6FF",
+        6: "#FD9A6A",
+        7: "#FF66A8",
+    };
+
     return (
         <div className="task-board">
             {statuses.map((status) => (
@@ -64,6 +74,7 @@ export default function TaskBoard({ filters }) {
                         (task) => task.status.id === status.id
                     )}
                     titleColor={statusColors[status.name]}
+                    departmentColors={departmentColors}
                 />
             ))}
         </div>

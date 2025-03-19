@@ -5,7 +5,7 @@
 .employee-select {
     width: 534px;
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #dee2e6;
     border-radius: 4px;
     cursor: pointer;
     display: flex;
@@ -24,7 +24,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    border: 1px solid #ccc;
+    border: 1px solid #dee2e6;
     border-radius: 4px;
     background: #fff;
     z-index: 10;
