@@ -8,8 +8,20 @@ export default function TaskDetailsPage() {
     const [task, setTask] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
+    const [newSubComment, setNewSubComment] = useState("");
     const [status, setStatus] = useState("");
     const [statuses, setStatuses] = useState([]);
+    const [replyToCommentId, setReplyToCommentId] = useState(null);
+
+    const departmentColors = {
+        1: "#89B6FF",
+        2: "#FD9A6A",
+        3: "#FF66A8",
+        4: "#FFD86D",
+        5: "#89B6FF",
+        6: "#FD9A6A",
+        7: "#FF66A8",
+    };
 
     useEffect(() => {
         async function fetchTask() {
@@ -82,6 +94,10 @@ export default function TaskDetailsPage() {
         setNewComment(e.target.value);
     };
 
+    const handleSubCommentChange = (e) => {
+        setNewSubComment(e.target.value);
+    };
+
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
 
@@ -113,6 +129,52 @@ export default function TaskDetailsPage() {
         }
     };
 
+    const handleSubCommentSubmit = async (e, commentId) => {
+        e.preventDefault();
+
+        const subCommentInfo = {
+            text: newSubComment,
+            parent_id: commentId,
+        };
+
+        try {
+            const response = await fetch(
+                `${API_URL}/tasks/${taskId}/comments`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${API_KEY}`,
+                    },
+                    body: JSON.stringify(subCommentInfo),
+                }
+            );
+            if (!response.ok) {
+                throw new Error(
+                    `Error adding subcomment: ${response.statusText}`
+                );
+            }
+            const subCommentData = await response.json();
+            setComments(
+                comments.map((comment) =>
+                    comment.id === commentId
+                        ? {
+                              ...comment,
+                              sub_comments: [
+                                  ...(comment.sub_comments || []),
+                                  subCommentData,
+                              ],
+                          }
+                        : comment
+                )
+            );
+            setNewSubComment("");
+            setReplyToCommentId(null);
+        } catch (error) {
+            console.error("Error adding subcomment:", error);
+        }
+    };
+
     const handleStatusChange = async (e) => {
         const newStatusId = e.target.value;
         setStatus(newStatusId);
@@ -137,6 +199,22 @@ export default function TaskDetailsPage() {
         }
     };
 
+    const toggleReplyToCommentId = (commentId) => {
+        setReplyToCommentId((prevId) =>
+            prevId === commentId ? null : commentId
+        );
+    };
+
+    const getTotalCommentsCount = () => {
+        let count = comments.length;
+        comments.forEach((comment) => {
+            if (comment.sub_comments) {
+                count += comment.sub_comments.length;
+            }
+        });
+        return count;
+    };
+
     if (!task) {
         return; //Maybe add a loading animation/spinner later
     }
@@ -149,107 +227,263 @@ export default function TaskDetailsPage() {
 
     return (
         <div className="task-details-page">
-            <div className="task-info">
-                <div className="priority-container">
-                    <span
-                        className="priority"
-                        style={priorityStyles[task.priority.name]}
-                    >
-                        <img
-                            className="priority-icon"
-                            src={task.priority.icon}
-                            alt="prio icon"
-                        />
-                        {task.priority.name}
-                    </span>
-                    <div className="department">{task.department.name}</div>
-                </div>
-
-                <span
-                    style={{
-                        fontSize: "34px",
-                        fontWeight: 100,
-                        fontFamily: "Inter",
-                        marginTop: "12px",
-                    }}
-                >
-                    {task.name}
-                </span>
-                <span
-                    style={{
-                        marginTop: "26px",
-                        fontSize: "19px",
-                        fontWeight: "400",
-                        wordWrap: "break-word",
-                    }}
-                >
-                    {task.description}
-                </span>
-            </div>
-            <div className="task-details">
-                <span
-                    style={{
-                        width: "273px",
-                        height: "49px",
-                        padding: "10px",
-                        fontSize: "24px",
-                        fontWeight: "500",
-                    }}
-                >
-                    დავალების დეტალები
-                </span>
-                <div>
-                    <div className="status">
-                        <span>სტატუსი</span>
-                        <select
-                            value={task.status.id}
-                            selected
-                            onChange={handleStatusChange}
+            <div className="form-left">
+                <div className="task-info">
+                    <div className="priority-container">
+                        <span
+                            className="priority"
+                            style={priorityStyles[task.priority.name]}
                         >
-                            {statuses.map((status) => (
-                                <option key={status.id} value={status.id}>
-                                    {status.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="employee">
-                        <span>თანამშრომელი</span>
-                        <span>
                             <img
-                                src={task.employee.avatar}
-                                alt={task.employee.name}
-                                className="employee-avatar"
+                                className="priority-icon"
+                                src={task.priority.icon}
+                                alt="prio icon"
                             />
-                            <span>
-                                {task.employee.name} {task.employee.surname}
-                            </span>
+                            {task.priority.name}
                         </span>
+                        <div
+                            className="department"
+                            style={{
+                                backgroundColor:
+                                    departmentColors[task.department.id],
+                            }}
+                        >
+                            {task.department.name}
+                        </div>
                     </div>
-                    <div className="deadline">
-                        <span className="meta-title">დასრულების ვადა:</span>
-                        <span>
-                            {new Date(task.due_date).toLocaleDateString()}
-                        </span>
+
+                    <span
+                        style={{
+                            fontSize: "34px",
+                            fontWeight: "600",
+                            marginTop: "12px",
+                            color: "#212529",
+                        }}
+                    >
+                        {task.name}
+                    </span>
+                    <span
+                        style={{
+                            marginTop: "26px",
+                            fontSize: "19px",
+                            fontWeight: "400",
+                            wordWrap: "break-word",
+                        }}
+                    >
+                        {task.description}
+                    </span>
+                </div>
+                <div className="task-details">
+                    <span
+                        style={{
+                            width: "273px",
+                            height: "49px",
+                            fontSize: "24px",
+                            fontWeight: "500",
+                        }}
+                    >
+                        დავალების დეტალები
+                    </span>
+                    <div>
+                        <div className="status">
+                            <span>სტატუსი</span>
+                            <select
+                                value={task.status.id}
+                                selected
+                                onChange={handleStatusChange}
+                            >
+                                {statuses.map((status) => (
+                                    <option key={status.id} value={status.id}>
+                                        {status.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="employee">
+                            <span>თანამშრომელი</span>
+                            <span
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                }}
+                            >
+                                <img
+                                    src={task.employee.avatar}
+                                    alt={task.employee.name}
+                                    className="employee-avatar"
+                                />
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "5px",
+                                        width: "max-content",
+                                    }}
+                                >
+                                    <span
+                                        style={{
+                                            backgroundColor:
+                                                departmentColors[
+                                                    task.employee.department
+                                                        .name
+                                                ],
+                                        }}
+                                    >
+                                        {task.employee.department.name}
+                                    </span>
+                                    <span>
+                                        {task.employee.name}{" "}
+                                        {task.employee.surname}
+                                    </span>
+                                </div>
+                            </span>
+                        </div>
+                        <div className="deadline">
+                            <span className="meta-title">დასრულების ვადა:</span>
+                            <span>
+                                {new Date(task.due_date)
+                                    .toLocaleDateString("ka-GE", {
+                                        weekday: "short",
+                                        day: "2-digit",
+                                        month: "2-digit",
+                                        year: "numeric",
+                                    })
+                                    .replace(/,/, " -")}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <div className="task-comments">
-                <h2>კომენტარები ({comments.length})</h2>
-                <form onSubmit={handleCommentSubmit}>
-                    <textarea
-                        value={newComment}
-                        onChange={handleCommentChange}
-                        placeholder="დაწერეთ კომენტარი"
-                        required
-                    />
-                    <button type="submit">დამატება</button>
+                <form onSubmit={handleCommentSubmit} className="comment-form">
+                    <div className="comment-input-container">
+                        <textarea
+                            value={newComment}
+                            onChange={handleCommentChange}
+                            placeholder="დაწერე კომენტარი"
+                            required
+                        />
+                        <button className="comment-button" type="submit">
+                            დააკომენტარე
+                        </button>
+                    </div>
                 </form>
+                <div
+                    style={{
+                        fontSize: "20px",
+                        fontWeight: 500,
+                        display: "flex",
+                        alignItems: "center",
+                    }}
+                >
+                    კომენტარები{" "}
+                    <span className="comments-length">
+                        {getTotalCommentsCount()}
+                    </span>
+                </div>
                 <ul>
                     {comments.map((comment) => (
                         <li key={comment.id}>
-                            <p>{comment.text}</p>
-                            <span>{comment.author_nickname}</span>
+                            <div className="comment-info">
+                                <img src={comment.author_avatar} alt="avatar" />
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                    }}
+                                >
+                                    <span>{comment.author_nickname}</span>
+                                    <p>{comment.text}</p>
+                                    {(!comment.sub_comments ||
+                                        comment.sub_comments.length === 0) && (
+                                        <button
+                                            className="subcomment-button"
+                                            onClick={() =>
+                                                toggleReplyToCommentId(
+                                                    comment.id
+                                                )
+                                            }
+                                        >
+                                            უპასუხე
+                                        </button>
+                                    )}
+                                    {replyToCommentId === comment.id && (
+                                        <form
+                                            onSubmit={(e) =>
+                                                handleSubCommentSubmit(
+                                                    e,
+                                                    comment.id
+                                                )
+                                            }
+                                            className="subcomment-form"
+                                        >
+                                            <div className="subcomment-info-container">
+                                                <textarea
+                                                    value={newSubComment}
+                                                    onChange={
+                                                        handleSubCommentChange
+                                                    }
+                                                    placeholder="დაწერე პასუხი"
+                                                    required
+                                                />
+                                                <button
+                                                    className="submit-subcomment"
+                                                    type="submit"
+                                                >
+                                                    დამატება
+                                                </button>
+                                            </div>
+                                        </form>
+                                    )}
+                                    {comment.sub_comments && (
+                                        <ul
+                                            className="subcomment-list"
+                                            style={{
+                                                height:
+                                                    comment.sub_comments
+                                                        .length === 0
+                                                        ? "0"
+                                                        : "50px",
+                                            }}
+                                        >
+                                            {comment.sub_comments.map(
+                                                (subComment) => (
+                                                    <li key={subComment.id}>
+                                                        <div className="subcomment-info">
+                                                            <img
+                                                                src={
+                                                                    subComment.author_avatar
+                                                                }
+                                                                alt="avatar"
+                                                            />
+                                                            <div
+                                                                style={{
+                                                                    display:
+                                                                        "flex",
+                                                                    flexDirection:
+                                                                        "column",
+                                                                }}
+                                                            >
+                                                                <span>
+                                                                    {
+                                                                        subComment.author_nickname
+                                                                    }
+                                                                </span>
+                                                                <p>
+                                                                    {
+                                                                        subComment.text
+                                                                    }
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                )
+                                            )}
+                                        </ul>
+                                    )}
+                                </div>
+                            </div>
                         </li>
                     ))}
                 </ul>

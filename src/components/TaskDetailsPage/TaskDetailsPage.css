@@ -1,10 +1,14 @@
 /* General style */
 .task-details-page {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 20px;
     border-radius: 8px;
     margin: 40px 120px 376px 120px;
+}
+
+.form-left {
+    width: 715px;
 }
 
 /* information */
@@ -35,8 +39,7 @@
 .department {
     background-color: firebrick;
     display: inline-block;
-    border-radius: 4px;
-    font-size: 1rem;
+    font-size: 16px;
     white-space: nowrap;
     border-radius: 15px;
     padding: 5px 10px;
@@ -45,7 +48,6 @@
 
 /* details */
 .task-details {
-    border: solid black 1px;
     width: 493px;
     height: 277px;
     display: flex;
@@ -63,44 +65,47 @@
     gap: 70px;
 }
 
+/* status */
 .status {
     display: flex;
     align-items: center;
-    gap: 10px;
 }
 
 .status select {
+    height: 45px;
+    width: 250px;
     padding: 5px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    font-size: 1rem;
+    font-size: 14px;
 }
 
+/* employee */
 .employee {
     display: flex;
     align-items: center;
-    gap: 10px;
 }
 
 .employee-avatar {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
     object-fit: cover;
+}
+
+/* deadline */
+.deadline {
+    display: flex;
+    align-items: center;
 }
 
 /* comments section */
 .task-comments {
-    padding: 20px;
-    background-color: #f9f9f9;
+    width: 650px;
+    height: inherit;
+    padding: 40px 45px;
+    background-color: #f8f3fea6;
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.task-comments h2 {
-    margin-top: 0;
-    font-size: 1.5rem;
-    color: #333;
 }
 
 .task-comments form {
@@ -118,38 +123,149 @@
     resize: vertical;
 }
 
-.task-comments button {
-    align-self: flex-start;
-    padding: 10px 20px;
-    background-color: #8338ec;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.task-comments button:hover {
-    background-color: #6a2bbf;
-}
-
 .task-comments ul {
+    width: 600px;
     list-style: none;
     padding: 0;
 }
 
-.task-comments li {
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.comment-input-container {
+    display: flex;
+    width: 630px;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px;
+    background-color: #fff;
+}
+
+.comment-input-container textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    resize: none;
+    padding: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    overflow-wrap: break-word;
+}
+
+/* comments submit */
+.comment-button {
+    background-color: #8338ec;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    margin-left: 470px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 3px;
+}
+
+.comments-length {
+    width: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 8px;
+    border-radius: 30px;
+    padding: 8px;
+    font-size: 14px;
+    background-color: #8338ec;
+    margin-left: 8px;
+    color: white;
+}
+
+.comment-info {
+    display: flex;
+    align-items: flex-start;
     margin-bottom: 10px;
-    padding: 10px;
-    background-color: #f1f1f1;
-    border-radius: 4px;
 }
 
-.task-comments li p {
+.comment-info img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.subcomment-info {
+    display: flex;
+    margin-top: 5px;
+    flex-direction: row;
+    max-width: 100%;
+}
+
+.comment-info p {
     margin: 0;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
-.task-comments li span {
-    display: block;
-    font-size: 0.875rem;
-    color: #666;
+.comment-info span {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* subcomments */
+.subcomment-form {
+    width: 580px;
+}
+
+/* open subcomments */
+.subcomment-button {
+    width: 67px;
+    height: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 0;
+    gap: 6px;
+    font-size: 12px;
+    background-color: #f8f3fea6;
+    border: none;
+    color: #8338ec;
+    cursor: pointer;
+}
+
+.subcomment-info-container {
+    display: flex;
+    width: 630px;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px;
+    background-color: #fff;
+}
+
+.subcomment-info-container textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    resize: none;
+    padding: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    overflow-wrap: break-word;
+}
+
+.submit-subcomment {
+    padding: 10px 10px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #8338ec;
+    align-self: end;
+    margin-right: 10px;
+    border-radius: 20px;
 }

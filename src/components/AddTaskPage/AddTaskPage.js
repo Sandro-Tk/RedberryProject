@@ -176,7 +176,7 @@ export default function AddTaskPage() {
             console.log("Task created successfully:", result);
 
             e.target.reset();
-            navigate("/"); // Redirect to the main page
+            navigate("/");
         } catch (error) {
             console.error("Error creating task:", error);
         }
@@ -323,7 +323,7 @@ export default function AddTaskPage() {
                             locale="ge"
                             placeholderText="DD/MM/YYYY"
                             className="custom-datepicker"
-                            minDate={new Date()} 
+                            minDate={new Date()}
                         />
                     </div>
                 </div>
