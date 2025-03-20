@@ -3,8 +3,11 @@ import TaskColumn from "./TaskColumn";
 import "./TaskBoard.css";
 import { API_KEY, API_URL } from "../App";
 
-export default function TaskBoard({ filters }) {
-    const [tasks, setTasks] = useState([]);
+export default function TaskBoard({ filters, tasks }) {
+
+
+    const [fetchedTasks, setTasks] = useState([]);
+
     const [statuses, setStatuses] = useState([]);
 
     useEffect(() => {
@@ -36,7 +39,7 @@ export default function TaskBoard({ filters }) {
         fetchData();
     }, []);
 
-    const filteredTasks = tasks.filter((task) => {
+    const filteredTasks = fetchedTasks.filter((task) => {
         return (
             (filters.department.length === 0 ||
                 filters.department.includes(task.department.name)) &&

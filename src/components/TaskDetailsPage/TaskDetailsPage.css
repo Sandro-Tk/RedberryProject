@@ -37,7 +37,6 @@
 }
 
 .department {
-    background-color: firebrick;
     display: inline-block;
     font-size: 16px;
     white-space: nowrap;
@@ -59,10 +58,23 @@
 .status,
 .employee,
 .deadline {
-    display: flex;
+    flex-direction: row;
     width: 493px;
     height: 70px;
     gap: 70px;
+}
+
+.icons {
+    width: 24px;
+    height: 24px;
+}
+
+.span-style {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
 }
 
 /* status */
@@ -78,6 +90,7 @@
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 14px;
+    margin-left: 75px;
 }
 
 /* employee */
@@ -170,6 +183,10 @@
     margin-top: 3px;
 }
 
+.comment-button:hover {
+    background-color: #b588f4;
+}
+
 .comments-length {
     width: 18px;
     display: flex;
@@ -236,6 +253,10 @@
     cursor: pointer;
 }
 
+.subcomment-button:hover {
+    color: #b588f4;
+}
+
 .subcomment-info-container {
     display: flex;
     width: 630px;
@@ -268,4 +289,8 @@
     align-self: end;
     margin-right: 10px;
     border-radius: 20px;
+}
+
+.submit-subcomment:hover {
+    background-color: #b588f4;
 }

@@ -200,6 +200,10 @@
     text-align: center;
 }
 
+.submit-button:hover{
+    background-color: #B588F4;
+}
+
 .error {
     color: #fa4d4d;
 }
@@ -212,9 +216,26 @@
     color: gray;
 }
 
+.deadline-input-container {
+    position: relative;
+}
+
+.deadline-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+    pointer-events: none; 
+    z-index: 1;
+}
+
 .custom-datepicker {
     width: 100%;
     padding: 10px;
+    padding-left: 40px; 
     border: 1px solid #dee2e6;
     border-radius: 4px;
     font-size: 16px;

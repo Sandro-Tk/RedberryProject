@@ -43,7 +43,13 @@
     font-size: 16px;
 }
 
+.add-employee-button:hover {
+    border-color: #b588f4;
+}
+
 .add-task-btn {
+    display: flex;
+    flex-direction: row;
     background-color: #8338ec;
     border: none;
     padding: 10px 20px 10px 20px;
@@ -51,4 +57,9 @@
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
+    gap: 4px;
+}
+
+.add-task-btn:hover {
+    background-color: #b588f4;
 }

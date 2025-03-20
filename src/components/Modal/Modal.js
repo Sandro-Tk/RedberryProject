@@ -223,6 +223,9 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                         style={{ display: "none" }}
                                         onChange={handleImageChange}
                                         required
+                                        placeholder={
+                                            <img src="icons/photo.png" alt="" />
+                                        }
                                     />
                                     <label
                                         htmlFor="photo"
@@ -240,7 +243,10 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                                     className="delete-button"
                                                     onClick={handleImageRemove}
                                                 >
-                                                    🗑️
+                                                    <img
+                                                        src="icons/delete.png"
+                                                        alt=""
+                                                    />
                                                 </button>
                                             </div>
                                         ) : (
@@ -286,7 +292,11 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                         </form>
                     </div>
                     <button className="close-button" onClick={handleClose}>
-                        ×
+                        <img
+                            style={{ cursor: "pointer" }}
+                            src="icons/close.png"
+                            alt=""
+                        />
                     </button>
                 </div>
             </div>

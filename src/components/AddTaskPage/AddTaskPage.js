@@ -374,16 +374,23 @@ export default function AddTaskPage() {
                     </div>
                     <div className="form-deadline">
                         <label htmlFor="due-date">დედლაინი*</label>
-                        <DatePicker
-                            id="due-date"
-                            selected={dueDate}
-                            onChange={(date) => setDueDate(date)}
-                            dateFormat="dd/MM/yyyy"
-                            locale="ge"
-                            placeholderText="DD/MM/YYYY"
-                            className="custom-datepicker"
-                            minDate={new Date()}
-                        />
+                        <div className="deadline-input-container">
+                            <img
+                                className="deadline-icon"
+                                src="../icons/deadline.png"
+                                alt=""
+                            />
+                            <DatePicker
+                                id="due-date"
+                                selected={dueDate}
+                                onChange={(date) => setDueDate(date)}
+                                dateFormat="dd/MM/yyyy"
+                                locale="ge"
+                                placeholderText="DD/MM/YYYY"
+                                className="custom-datepicker"
+                                minDate={new Date()}
+                            />
+                        </div>
                     </div>
                 </div>
                 <button type="submit" className="submit-button">

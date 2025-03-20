@@ -130,6 +130,10 @@
 }
 
 .comments {
-    font-size: 0.875rem;
-    color: #888;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+    gap: 8px;
+    color: black;
 }

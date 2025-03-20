@@ -286,7 +286,14 @@ export default function TaskDetailsPage() {
                     </span>
                     <div>
                         <div className="status">
-                            <span>სტატუსი</span>
+                            <span className="span-style">
+                                <img
+                                    className="icons"
+                                    src="../icons/status.png"
+                                    alt=""
+                                />
+                                სტატუსი
+                            </span>
                             <select
                                 value={task.status.id}
                                 selected
@@ -300,11 +307,19 @@ export default function TaskDetailsPage() {
                             </select>
                         </div>
                         <div className="employee">
-                            <span>თანამშრომელი</span>
+                            <span className="span-style">
+                                <img
+                                    className="icons"
+                                    src="../icons/employee.png"
+                                    alt=""
+                                />
+                                თანამშრომელი
+                            </span>
                             <span
                                 style={{
                                     display: "flex",
                                     flexDirection: "row",
+                                    marginLeft: "30px",
                                 }}
                             >
                                 <img
@@ -320,18 +335,16 @@ export default function TaskDetailsPage() {
                                         width: "max-content",
                                     }}
                                 >
-                                    <span
-                                        style={{
-                                            backgroundColor:
-                                                departmentColors[
-                                                    task.employee.department
-                                                        .name
-                                                ],
-                                        }}
-                                    >
+                                    <span style={{ fontSize: "12px" }}>
                                         {task.employee.department.name}
                                     </span>
-                                    <span>
+                                    <span
+                                        style={{
+                                            fontSize: "14px",
+                                            color: "#0D0F10",
+                                            fontWeight: 600,
+                                        }}
+                                    >
                                         {task.employee.name}{" "}
                                         {task.employee.surname}
                                     </span>
@@ -339,7 +352,14 @@ export default function TaskDetailsPage() {
                             </span>
                         </div>
                         <div className="deadline">
-                            <span className="meta-title">დასრულების ვადა:</span>
+                            <span className="span-style">
+                                <img
+                                    className="icons"
+                                    src="../icons/deadline.png"
+                                    alt=""
+                                />
+                                დასრულების ვადა:
+                            </span>
                             <span>
                                 {new Date(task.due_date)
                                     .toLocaleDateString("ka-GE", {
@@ -405,6 +425,10 @@ export default function TaskDetailsPage() {
                                                 )
                                             }
                                         >
+                                            <img style={{width: '16px', height: '16px', marginRight: '4px'}}
+                                                src="../icons/subcomment.png"
+                                                alt=""
+                                            />
                                             უპასუხე
                                         </button>
                                     )}

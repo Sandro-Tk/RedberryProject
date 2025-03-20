@@ -140,8 +140,8 @@ label {
 
 .delete-button {
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: -6px;
+    right: -6px;
     background: none;
     border: none;
     cursor: pointer;
@@ -182,4 +182,15 @@ label {
 
 .error {
     color: #fa4d4d;
+}
+
+.placeholder-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.placeholder-icon {
+    width: 24px;
+    height: 24px;
 }

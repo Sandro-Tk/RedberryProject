@@ -16,15 +16,16 @@ export default function Navbar({ onOpenModal }) {
     return (
         <>
             <nav className="navbar">
-                <div className="navbar-left" style={{ cursor: "pointer" }}>
-                    <span className="nav-title" onClick={handleLogoClick}>
-                        Momentum
-                    </span>
+                <div
+                    className="navbar-left"
+                    onClick={handleLogoClick}
+                    style={{ cursor: "pointer" }}
+                >
+                    <span className="nav-title">Momentum</span>
                     <img
                         src="icons/Hourglass.png"
                         alt=""
                         className="nav-icon"
-                        onClick={handleLogoClick}
                     />
                 </div>
                 <div className="navbar-right">
@@ -38,6 +39,7 @@ export default function Navbar({ onOpenModal }) {
                         className="add-task-btn"
                         onClick={handleAddTaskClick}
                     >
+                        <img src="icons/add.png" alt="" />
                         შექმენი ახალი დავალება
                     </button>
                 </div>

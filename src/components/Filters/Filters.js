@@ -1,25 +1,29 @@
-import React, { useState, } from "react";
+import React, { useState, useEffect } from "react";
 import "./Filters.css";
 
 export default function Filters({
     dropdowns,
     filters,
+    setFilters,
     departments,
     priorities,
     employees,
     onHandleDropdown,
     onConfirmFilters,
 }) {
-    const [selectedFilters, setSelectedFilters] = useState(() => {
-        const savedFilters = localStorage.getItem("selectedFilters");
-        return savedFilters ? JSON.parse(savedFilters) : filters;
-    });
+    const [tempFilters, setTempFilters] = useState(filters);
+
+    useEffect(() => {
+        setTempFilters(filters);
+    }, [filters]);
 
     const handleCheckboxChange = (type, value) => {
-        const updatedFilters = { ...selectedFilters };
+        const updatedFilters = { ...tempFilters };
         if (type === "employee") {
             if (updatedFilters[type].includes(value)) {
-                updatedFilters[type] = [];
+                updatedFilters[type] = updatedFilters[type].filter(
+                    (item) => item !== value
+                );
             } else {
                 updatedFilters[type] = [value];
             }
@@ -32,12 +36,12 @@ export default function Filters({
                 updatedFilters[type].push(value);
             }
         }
-        setSelectedFilters(updatedFilters);
+        setTempFilters(updatedFilters);
     };
 
     const handleConfirmFilters = () => {
-        onConfirmFilters(selectedFilters);
-
+        onConfirmFilters(tempFilters);
+        setFilters(tempFilters); 
         onHandleDropdown("department", false);
         onHandleDropdown("priority", false);
         onHandleDropdown("employee", false);
@@ -51,7 +55,20 @@ export default function Filters({
                         className="filter-button"
                         onClick={() => onHandleDropdown("department")}
                     >
-                        დეპარტამენტი {dropdowns.department ? "▲" : "▼"}
+                        დეპარტამენტი{" "}
+                        {dropdowns.department ? (
+                            <img
+                                className="filter-image"
+                                src="icons/filter.png"
+                                alt=""
+                            />
+                        ) : (
+                            <img
+                                className="filter-image"
+                                src="icons/filteropen.png"
+                                alt=""
+                            />
+                        )}
                     </button>
                 </div>
                 <div className="filter">
@@ -59,7 +76,20 @@ export default function Filters({
                         className="filter-button"
                         onClick={() => onHandleDropdown("priority")}
                     >
-                        პრიორიტეტი {dropdowns.priority ? "▲" : "▼"}
+                        პრიორიტეტი{" "}
+                        {dropdowns.priority ? (
+                            <img
+                                className="filter-image"
+                                src="icons/filter.png"
+                                alt=""
+                            />
+                        ) : (
+                            <img
+                                className="filter-image"
+                                src="icons/filteropen.png"
+                                alt=""
+                            />
+                        )}
                     </button>
                 </div>
                 <div className="filter">
@@ -67,7 +97,20 @@ export default function Filters({
                         className="filter-button"
                         onClick={() => onHandleDropdown("employee")}
                     >
-                        თანამშრომელი {dropdowns.employee ? "▲" : "▼"}
+                        თანამშრომელი{" "}
+                        {dropdowns.employee ? (
+                            <img
+                                className="filter-image"
+                                src="icons/filter.png"
+                                alt=""
+                            />
+                        ) : (
+                            <img
+                                className="filter-image"
+                                src="icons/filteropen.png"
+                                alt=""
+                            />
+                        )}
                     </button>
                 </div>
             </div>
@@ -84,7 +127,7 @@ export default function Filters({
                                         type="checkbox"
                                         id={`department-${department.id}`}
                                         name={`department-${department.id}`}
-                                        checked={selectedFilters.department.includes(
+                                        checked={tempFilters.department.includes(
                                             department.name
                                         )}
                                         onChange={() =>
@@ -119,7 +162,7 @@ export default function Filters({
                                         type="checkbox"
                                         id={`priority-${priority.id}`}
                                         name={`priority-${priority.id}`}
-                                        checked={selectedFilters.priority.includes(
+                                        checked={tempFilters.priority.includes(
                                             priority.name
                                         )}
                                         onChange={() =>
@@ -154,7 +197,7 @@ export default function Filters({
                                         type="checkbox"
                                         id={`employee-${employee.id}`}
                                         name="employee"
-                                        checked={selectedFilters.employee.includes(
+                                        checked={tempFilters.employee.includes(
                                             employee.id
                                         )}
                                         onChange={() =>

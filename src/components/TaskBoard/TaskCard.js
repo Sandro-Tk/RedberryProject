@@ -66,7 +66,9 @@ export default function TaskCard({ task, borderColor, departmentColor }) {
                     alt="User"
                     className="user-avatar"
                 />
-                <span className="comments">💬 {task.total_comments}</span>
+                <span className="comments">
+                    <img src="icons/comments.png" alt="" /> {task.total_comments}
+                </span>
             </div>
         </div>
     );
