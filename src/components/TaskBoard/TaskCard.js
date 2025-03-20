@@ -17,10 +17,27 @@ export default function TaskCard({ task, borderColor, departmentColor }) {
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        const options = { month: "short", day: "numeric", year: "numeric" };
-        const formattedDate = date.toLocaleDateString("ka-GE", options);
-        const [day, month, year] = formattedDate.split(" ");
-        return `${month} ${day}, ${year}`;
+        const options = { day: "numeric", month: "short", year: "numeric" };
+        const formattedDate = new Intl.DateTimeFormat("ka-GE", options).format(
+            date
+        );
+        const [month, day, year] = formattedDate.replace(",", "").split(" ");
+        const monthMap = {
+            Jan: "იან",
+            Feb: "თებ",
+            Mar: "მარ",
+            Apr: "აპრ",
+            May: "მაი",
+            Jun: "ივნ",
+            Jul: "ივლ",
+            Aug: "აგვ",
+            Sep: "სექ",
+            Oct: "ოქტ",
+            Nov: "ნოე",
+            Dec: "დეკ",
+        };
+
+        return `${day} ${monthMap[month]} , ${year}`;
     };
 
     const truncateDescription = (description) => {
@@ -67,7 +84,8 @@ export default function TaskCard({ task, borderColor, departmentColor }) {
                     className="user-avatar"
                 />
                 <span className="comments">
-                    <img src="icons/comments.png" alt="" /> {task.total_comments}
+                    <img src="icons/comments.png" alt="" />{" "}
+                    {task.total_comments}
                 </span>
             </div>
         </div>

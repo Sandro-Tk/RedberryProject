@@ -42,19 +42,22 @@
 
 /* selected filters */
 .selected-filters {
-    margin-left: 122px;
-    margin-top: 20px;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
+    margin-left: 110px;
+    position: absolute;
+    padding: 10px;
+    margin-top: 15px;
     gap: 8px;
 }
 
 .selected-filter {
     background-color: #f0f0f0;
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 6px 10px;
+    border-radius: 43px;
     display: flex;
     align-items: center;
+    justify-content: c;
 }
 
 .remove-filter-button {
@@ -66,8 +69,8 @@
 }
 
 .clear-filters-button {
-    background-color: #ff0000;
-    color: #ffffff;
+    background-color: white;
+    color: #343a40;
     border: none;
     padding: 5px 10px;
     border-radius: 5px;

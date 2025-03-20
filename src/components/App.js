@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Route,
+    Routes,
+    useLocation,
+} from "react-router-dom";
 import Navbar from "./Navbar/Navbar";
 import Filters from "./Filters/Filters";
 import TaskBoard from "./TaskBoard/TaskBoard";
@@ -15,19 +20,24 @@ function AppContent() {
     const [departments, setDepartments] = useState([]);
     const [priorities, setPriorities] = useState([]);
     const [employees, setEmployees] = useState([]);
-    const [filters, setFilters] = useState({
-        department: [],
-        priority: [],
-        employee: [],
+    const [filters, setFilters] = useState(() => {
+        const savedFilters = localStorage.getItem("selectedFilters");
+        return savedFilters
+            ? JSON.parse(savedFilters)
+            : {
+                  department: [],
+                  priority: [],
+                  employee: [],
+              };
     });
-    const [tempFilters, setTempFilters] = useState(filters);
     const [dropdowns, setDropdowns] = useState({
         department: false,
         priority: false,
         employee: false,
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [confirmedFilters, setConfirmedFilters] = useState(filters);
+
+    const location = useLocation();
 
     // API calls
     useEffect(() => {
@@ -78,6 +88,22 @@ function AppContent() {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            localStorage.setItem("selectedFilters", JSON.stringify(filters));
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, [filters]);
+
+    useEffect(() => {
+        localStorage.removeItem("selectedFilters");
+    }, [location]);
+
     const handleDropdown = (type, value) => {
         setDropdowns((prevDropdowns) => {
             const newDropdowns = {
@@ -92,44 +118,17 @@ function AppContent() {
         });
     };
 
-    const handleConfirmFilters = () => {
-        console.log("Confirming filters:", tempFilters);
-        setConfirmedFilters(tempFilters);
+    const handleConfirmFilters = (confirmedFilters) => {
+        setFilters(confirmedFilters);
+        localStorage.setItem(
+            "selectedFilters",
+            JSON.stringify(confirmedFilters)
+        );
     };
 
     function addEmployee(newEmployee) {
         setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
     }
-
-    useEffect(() => {
-        console.log("Confirmed filters updated:", confirmedFilters);
-    }, [confirmedFilters]);
-
-    useEffect(() => {
-        console.log("Temp filters updated:", tempFilters);
-    }, [tempFilters]);
-
-    useEffect(() => {
-        console.log("Filters updated:", filters);
-    }, [filters]);
-
-    const filterTasks = (tasks, filters) => {
-        return tasks.filter((task) => {
-            const departmentMatch =
-                filters.department.length === 0 ||
-                filters.department.includes(task.department);
-            const priorityMatch =
-                filters.priority.length === 0 ||
-                filters.priority.includes(task.priority);
-            const employeeMatch =
-                filters.employee.length === 0 ||
-                filters.employee.includes(task.employee);
-
-            return departmentMatch && priorityMatch && employeeMatch;
-        });
-    };
-
-    const filteredTasks = filterTasks(tasks, confirmedFilters);
 
     return (
         <>
@@ -144,19 +143,13 @@ function AppContent() {
                             <Filters
                                 dropdowns={dropdowns}
                                 filters={filters}
-                                tempFilters={tempFilters}
-                                setTempFilters={setTempFilters}
                                 departments={departments}
                                 priorities={priorities}
                                 employees={employees}
                                 onHandleDropdown={handleDropdown}
                                 onConfirmFilters={handleConfirmFilters}
-                                setFilters={setFilters}
                             />
-                            <TaskBoard
-                                tasks={filteredTasks}
-                                filters={confirmedFilters}
-                            />
+                            <TaskBoard tasks={tasks} filters={filters} />
                         </>
                     }
                 />

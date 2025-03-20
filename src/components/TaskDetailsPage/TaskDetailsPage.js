@@ -23,6 +23,34 @@ export default function TaskDetailsPage() {
         7: "#FF66A8",
     };
 
+    const formatDateWithWeekday = (dateString) => {
+        const date = new Date(dateString);
+        const options = {
+            weekday: "short",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        };
+        const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+            date
+        );
+        const [weekday, month] = formattedDate
+            .replace(",", "")
+            .split(" ");
+
+        const weekdayMap = {
+            Mon: "ორშ",
+            Tue: "სამ",
+            Wed: "ოთხ",
+            Thu: "ხუთ",
+            Fri: "პარ",
+            Sat: "შაბ",
+            Sun: "კვი",
+        };
+
+        return `${weekdayMap[weekday]} - ${month}`;
+    };
+
     useEffect(() => {
         async function fetchTask() {
             try {
@@ -360,16 +388,7 @@ export default function TaskDetailsPage() {
                                 />
                                 დასრულების ვადა:
                             </span>
-                            <span>
-                                {new Date(task.due_date)
-                                    .toLocaleDateString("ka-GE", {
-                                        weekday: "short",
-                                        day: "2-digit",
-                                        month: "2-digit",
-                                        year: "numeric",
-                                    })
-                                    .replace(/,/, " -")}
-                            </span>
+                            <span>{formatDateWithWeekday(task.due_date)}</span>
                         </div>
                     </div>
                 </div>
