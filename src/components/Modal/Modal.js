@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { API_URL, API_KEY } from "../App";
 import "./Modal.css";
 
@@ -74,13 +74,17 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
         formData.append("avatar", avatar);
 
         try {
-            const response = await fetch(`${API_URL}/employees`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${API_KEY}`,
+            const response = await fetch(
+                `${API_URL}/employees`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${API_KEY}`,
+                    },
+                    body: formData,
                 },
-                body: formData,
-            });
+                []
+            );
 
             if (response.ok) {
                 const newEmployee = await response.json();
@@ -97,7 +101,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
         }
     };
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setName("");
         setLastname("");
         setDepartmentId("");
@@ -108,7 +112,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
         setNameMaxError("");
         setSurnameMaxError("");
         onClose();
-    };
+    }, [onClose]);
 
     useEffect(() => {
         const handleEsc = (event) => {
@@ -121,13 +125,13 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
         return () => {
             window.removeEventListener("keydown", handleEsc);
         };
-    }, []);
+    }, [handleClose]);
 
     useEffect(() => {
         if (!isOpen) {
             handleClose();
         }
-    }, [isOpen]);
+    }, [isOpen, handleClose]);
 
     if (!isOpen) return null;
 

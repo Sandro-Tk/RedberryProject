@@ -9,7 +9,7 @@ export default function TaskDetailsPage() {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [newSubComment, setNewSubComment] = useState("");
-    const [status, setStatus] = useState("");
+    const [, setStatus] = useState("");
     const [statuses, setStatuses] = useState([]);
     const [replyToCommentId, setReplyToCommentId] = useState(null);
 
@@ -425,7 +425,12 @@ export default function TaskDetailsPage() {
                                                 )
                                             }
                                         >
-                                            <img style={{width: '16px', height: '16px', marginRight: '4px'}}
+                                            <img
+                                                style={{
+                                                    width: "16px",
+                                                    height: "16px",
+                                                    marginRight: "4px",
+                                                }}
                                                 src="../icons/subcomment.png"
                                                 alt=""
                                             />
