@@ -14,7 +14,7 @@ import AddTaskPage from "./AddTaskPage/AddTaskPage";
 import TaskDetails from "./TaskDetailsPage/TaskDetailsPage";
 
 export const API_URL = "https://momentum.redberryinternship.ge/api";
-export const API_KEY = "9e78a7ca-82db-4646-9b40-0a68986d0cdd";
+export const API_KEY = "9e7c4efc-775c-4c1a-a1ee-1ef57afa9a16";
 
 function AppContent() {
     const [tasks, setTasks] = useState([]);
