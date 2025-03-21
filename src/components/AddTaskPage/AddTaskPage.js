@@ -128,41 +128,65 @@ export default function AddTaskPage() {
         localStorage.setItem("selectedEmployee", selectedEmployee);
     }, [selectedEmployee]);
 
+    const validateInput = (
+        value,
+        setError,
+        setMaxError,
+        inputId,
+        minLength,
+        maxLength,
+        minWords
+    ) => {
+        const inputElement = document.getElementById(inputId);
+        const wordCount = value.trim().split(/\s+/).length;
+        if (value.length === 0) {
+            setError("");
+            setMaxError("");
+            inputElement.style.border = "1px solid #dee2e6";
+        } else if (minWords && wordCount < minWords) {
+            setError(`აღწერაში უნდა იყოს მინიმუმ ${minWords} სიტყვა`);
+            setMaxError("");
+            inputElement.style.border = "1px solid #FA4D4D";
+        } else if (value.length < minLength) {
+            setError(`სათაური უნდა იყოს მინიმუმ ${minLength} სიმბოლო`);
+            setMaxError("");
+            inputElement.style.border = "1px solid #FA4D4D";
+        } else if (value.length > maxLength) {
+            setMaxError(`სათაური უნდა იყოს მაქსიმუმ ${maxLength} სიმბოლო`);
+            setError("valid");
+            inputElement.style.border = "1px solid #FA4D4D";
+        } else {
+            setError("valid");
+            setMaxError("valid");
+            inputElement.style.border = "1px solid #dee2e6";
+        }
+    };
+
     const handleTitleChange = (e) => {
         const value = e.target.value;
         setTaskTitle(value);
-        if (value.length === 0) {
-            setTitleError("");
-            setTitleMaxError("");
-        } else if (value.length < 3) {
-            setTitleError("სათაური უნდა იყოს მინიმუმ 3 სიმბოლო");
-            setTitleMaxError("");
-        } else if (value.length > 255) {
-            setTitleMaxError("სათაური უნდა იყოს მაქსიმუმ 255 სიმბოლო");
-            setTitleError("valid");
-        } else {
-            setTitleError("valid");
-            setTitleMaxError("valid");
-        }
+        validateInput(
+            value,
+            setTitleError,
+            setTitleMaxError,
+            "task-title",
+            3,
+            255
+        );
     };
 
     const handleDescriptionChange = (e) => {
         const value = e.target.value;
         setTaskDescription(value);
-        const wordCount = value.trim().split(/\s+/).length;
-        if (value.length === 0) {
-            setDescriptionError("");
-            setDescriptionMaxError("");
-        } else if (wordCount < 4) {
-            setDescriptionError("აღწერაში უნდა იყოს მინიმუმ 4 სიტყვა");
-            setDescriptionMaxError("");
-        } else if (value.length > 255) {
-            setDescriptionMaxError("აღწერა უნდა იყოს მაქსიმუმ 255 სიმბოლო");
-            setDescriptionError("valid");
-        } else {
-            setDescriptionError("valid");
-            setDescriptionMaxError("valid");
-        }
+        validateInput(
+            value,
+            setDescriptionError,
+            setDescriptionMaxError,
+            "task-description",
+            0,
+            255,
+            4
+        );
     };
 
     const handlePriorityChange = (e) => {
@@ -258,6 +282,12 @@ export default function AddTaskPage() {
                             required
                             value={taskTitle}
                             onChange={handleTitleChange}
+                            style={{
+                                border:
+                                    titleError === "valid" || titleError === ""
+                                        ? "1px solid #dee2e6"
+                                        : "1px solid #FA4D4D",
+                            }}
                         />
                         <small
                             className={
@@ -289,6 +319,13 @@ export default function AddTaskPage() {
                             name="task-description"
                             value={taskDescription}
                             onChange={handleDescriptionChange}
+                            style={{
+                                border:
+                                    descriptionError === "valid" ||
+                                    descriptionError === ""
+                                        ? "1px solid #dee2e6"
+                                        : "1px solid #FA4D4D",
+                            }}
                         ></textarea>
                         <small
                             className={
@@ -373,7 +410,7 @@ export default function AddTaskPage() {
                         )}
                     </div>
                     <div className="form-deadline">
-                        <label htmlFor="due-date">დედლაინი*</label>
+                        <label htmlFor="due-date">დედლაინი</label>
                         <div className="deadline-input-container">
                             <img
                                 className="deadline-icon"

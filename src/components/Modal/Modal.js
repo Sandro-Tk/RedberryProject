@@ -13,35 +13,41 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
     const [nameMaxError, setNameMaxError] = useState("");
     const [surnameMaxError, setSurnameMaxError] = useState("");
 
-    const validateInput = (value, setError, setMaxError) => {
+    const validateInput = (value, setError, setMaxError, inputId) => {
+        const inputElement = document.getElementById(inputId);
         if (value.length === 0) {
             setError("");
             setMaxError("");
+            inputElement.style.border = "1px solid #dee2e6";
         } else if (value.length < 2) {
             setError("მინიმუმ 2 სიმბოლო");
             setMaxError("");
+            inputElement.style.border = "1px solid #FA4D4D";
         } else if (value.length > 255) {
             setMaxError("მაქსიმუმ 255 სიმბოლო");
             setError("valid");
+            inputElement.style.border = "1px solid #FA4D4D";
         } else if (!/^[a-zA-Zა-ჰ]*$/.test(value)) {
             setError("მხოლოდ ლათინური და ქართული ასოები");
             setMaxError("");
+            inputElement.style.border = "1px solid #FA4D4D";
         } else {
             setError("valid");
             setMaxError("valid");
+            inputElement.style.border = "1px solid #dee2e6";
         }
     };
 
     const handleNameChange = (e) => {
         const value = e.target.value;
         setName(value);
-        validateInput(value, setNameError, setNameMaxError);
+        validateInput(value, setNameError, setNameMaxError, "name");
     };
 
     const handleLastnameChange = (e) => {
         const value = e.target.value;
         setLastname(value);
-        validateInput(value, setSurnameError, setSurnameMaxError);
+        validateInput(value, setSurnameError, setSurnameMaxError, "lastname");
     };
 
     const handleImageChange = (e) => {
@@ -146,6 +152,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                 <div className="form-group">
                                     <label htmlFor="name">სახელი*</label>
                                     <input
+                                        style={{ border: "1px solid #dee2e6" }}
                                         type="text"
                                         id="name"
                                         name="name"
@@ -184,6 +191,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                 <div className="form-group">
                                     <label htmlFor="lastname">გვარი*</label>
                                     <input
+                                        style={{ border: "1px solid #dee2e6" }}
                                         type="text"
                                         id="lastname"
                                         name="lastname"
@@ -276,7 +284,9 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                     }
                                     required
                                 >
-                                    
+                                    <option value="" disabled>
+                                        
+                                    </option>
                                     {departments.map((department) => (
                                         <option
                                             key={department.id}

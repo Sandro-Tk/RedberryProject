@@ -64,6 +64,11 @@
     border-radius: 5px;
 }
 
+.form-title input:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
 .form-title small {
     margin-top: 5px;
     font-size: 10px;
@@ -85,9 +90,14 @@
 .form-description textarea {
     width: 544px;
     height: 133px;
-    font-family: 'FiraGO';
+    font-family: "FiraGO";
     border-radius: 5px;
     border: solid 1px #dee2e6;
+}
+
+.form-description textarea:focus-visible {
+    outline: none;
+    box-shadow: none;
 }
 
 .form-description label {
@@ -249,8 +259,13 @@
     height: 22px;
 }
 
+.custom-datepicker:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
 .react-datepicker {
-    font-family: Arial, sans-serif;
+    font-family: "FiraGo";
 }
 
 .react-datepicker__header {

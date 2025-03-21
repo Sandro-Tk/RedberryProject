@@ -19,6 +19,7 @@ label {
 }
 
 .modal-content {
+    margin-top: 80px;
     background: white;
     padding: 40px;
     border-radius: 10px;
@@ -78,7 +79,15 @@ label {
     font-size: 10px;
 }
 
-.form-group input,
+.form-group input{
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 384px;
+    box-sizing: border-box;
+}
+
 .form-group select {
     padding: 10px;
     border: 1px solid #dee2e6;
@@ -139,6 +148,11 @@ label {
     border: 1px solid #dee2e6;
 }
 
+.form-row3 select:focus-visible{
+    outline: none;
+    box-shadow: none;
+}
+
 .delete-button {
     position: absolute;
     bottom: -6px;
@@ -181,8 +195,9 @@ label {
     background-color: #b588f4;
 }
 
-.gray {
-    color: gray;
+.form-group input:focus {
+    outline: none;
+    box-shadow: none;
 }
 
 .valid {
@@ -191,6 +206,10 @@ label {
 
 .error {
     color: #fa4d4d;
+}
+
+.gray {
+    color: gray;
 }
 
 .placeholder-container {

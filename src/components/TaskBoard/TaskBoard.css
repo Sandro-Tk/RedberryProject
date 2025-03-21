@@ -16,11 +16,15 @@
 }
 
 .task-column h2 {
+    display: flex;
+    font-size: 20px;
+    height: 54px;
     margin: 0;
     padding: 10px;
     color: white;
-    text-align: center;
     border-radius: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
 .task-list {

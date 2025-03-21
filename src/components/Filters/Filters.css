@@ -52,6 +52,7 @@
 }
 
 .selected-filter {
+    height: 16px;
     border: 1px solid #ced4da;
     padding: 6px 10px;
     border-radius: 43px;
@@ -158,7 +159,7 @@
 .checkbox-container .custom-checkbox {
     width: 20px;
     height: 20px;
-    border: 1.5px solid #8338EC;
+    border: 1.5px solid #8338ec;
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -169,5 +170,5 @@
 .checkbox-container input[type="checkbox"]:checked + .custom-checkbox::after {
     content: "✔";
     font-size: 14px;
-    color: #000;
+    color: #8338ec;
 }
