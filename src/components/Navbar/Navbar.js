@@ -23,7 +23,7 @@ export default function Navbar({ onOpenModal }) {
                 >
                     <span className="nav-title">Momentum</span>
                     <img
-                        src="icons/Hourglass.png"
+                        src={`${process.env.PUBLIC_URL}/icons/Hourglass.png`}
                         alt=""
                         className="nav-icon"
                     />
@@ -39,7 +39,10 @@ export default function Navbar({ onOpenModal }) {
                         className="add-task-btn"
                         onClick={handleAddTaskClick}
                     >
-                        <img src="icons/add.png" alt="" />
+                        <img
+                            src={`${process.env.PUBLIC_URL}/icons/add.png`}
+                            alt=""
+                        />
                         შექმენი ახალი დავალება
                     </button>
                 </div>
