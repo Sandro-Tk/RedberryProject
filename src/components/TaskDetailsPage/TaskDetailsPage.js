@@ -8,7 +8,7 @@ export default function TaskDetailsPage() {
     const [task, setTask] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
-    const [newSubComment, setNewSubComment] = useState("");
+    const [subCommentMap, setSubCommentMap] = useState({});
     const [, setStatus] = useState("");
     const [statuses, setStatuses] = useState([]);
     const [replyToCommentId, setReplyToCommentId] = useState(null);
@@ -34,9 +34,7 @@ export default function TaskDetailsPage() {
         const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
             date
         );
-        const [weekday, month] = formattedDate
-            .replace(",", "")
-            .split(" ");
+        const [weekday, month] = formattedDate.replace(",", "").split(" ");
 
         const weekdayMap = {
             Mon: "ორშ",
@@ -122,8 +120,11 @@ export default function TaskDetailsPage() {
         setNewComment(e.target.value);
     };
 
-    const handleSubCommentChange = (e) => {
-        setNewSubComment(e.target.value);
+    const handleSubCommentChange = (e, commentId) => {
+        setSubCommentMap({
+            ...subCommentMap,
+            [commentId]: e.target.value,
+        });
     };
 
     const handleCommentSubmit = async (e) => {
@@ -161,7 +162,7 @@ export default function TaskDetailsPage() {
         e.preventDefault();
 
         const subCommentInfo = {
-            text: newSubComment,
+            text: subCommentMap[commentId],
             parent_id: commentId,
         };
 
@@ -196,8 +197,10 @@ export default function TaskDetailsPage() {
                         : comment
                 )
             );
-            setNewSubComment("");
-            setReplyToCommentId(null);
+            setSubCommentMap({
+                ...subCommentMap,
+                [commentId]: "",
+            });
         } catch (error) {
             console.error("Error adding subcomment:", error);
         }
@@ -434,28 +437,23 @@ export default function TaskDetailsPage() {
                                 >
                                     <span>{comment.author_nickname}</span>
                                     <p>{comment.text}</p>
-                                    {(!comment.sub_comments ||
-                                        comment.sub_comments.length === 0) && (
-                                        <button
-                                            className="subcomment-button"
-                                            onClick={() =>
-                                                toggleReplyToCommentId(
-                                                    comment.id
-                                                )
-                                            }
-                                        >
-                                            <img
-                                                style={{
-                                                    width: "16px",
-                                                    height: "16px",
-                                                    marginRight: "4px",
-                                                }}
-                                                src="../icons/subcomment.png"
-                                                alt=""
-                                            />
-                                            უპასუხე
-                                        </button>
-                                    )}
+                                    <button
+                                        className="subcomment-button"
+                                        onClick={() =>
+                                            toggleReplyToCommentId(comment.id)
+                                        }
+                                    >
+                                        <img
+                                            style={{
+                                                width: "16px",
+                                                height: "16px",
+                                                marginRight: "4px",
+                                            }}
+                                            src="../icons/subcomment.png"
+                                            alt=""
+                                        />
+                                        უპასუხე
+                                    </button>
                                     {replyToCommentId === comment.id && (
                                         <form
                                             onSubmit={(e) =>
@@ -468,9 +466,16 @@ export default function TaskDetailsPage() {
                                         >
                                             <div className="subcomment-info-container">
                                                 <textarea
-                                                    value={newSubComment}
-                                                    onChange={
-                                                        handleSubCommentChange
+                                                    value={
+                                                        subCommentMap[
+                                                            comment.id
+                                                        ] || ""
+                                                    }
+                                                    onChange={(e) =>
+                                                        handleSubCommentChange(
+                                                            e,
+                                                            comment.id
+                                                        )
                                                     }
                                                     placeholder="დაწერე პასუხი"
                                                     required
@@ -485,16 +490,7 @@ export default function TaskDetailsPage() {
                                         </form>
                                     )}
                                     {comment.sub_comments && (
-                                        <ul
-                                            className="subcomment-list"
-                                            style={{
-                                                height:
-                                                    comment.sub_comments
-                                                        .length === 0
-                                                        ? "0"
-                                                        : "50px",
-                                            }}
-                                        >
+                                        <ul className="subcomment-list">
                                             {comment.sub_comments.map(
                                                 (subComment) => (
                                                     <li key={subComment.id}>

@@ -2,7 +2,7 @@
 .task-details-page {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 223px;
     border-radius: 8px;
     margin: 40px 120px 376px 120px;
 }
@@ -205,7 +205,7 @@
 .comment-info {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 10px;
+    margin-bottom: 57px;
 }
 
 .comment-info img {
@@ -278,6 +278,12 @@
     font-size: 14px;
     font-family: inherit;
     overflow-wrap: break-word;
+}
+
+.subcomment-list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .submit-subcomment {
