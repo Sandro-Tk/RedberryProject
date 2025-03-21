@@ -165,6 +165,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                                 : "error"
                                         }
                                     >
+                                        <img src="icons/checkmark.png" alt="" />
                                         მინიმუმ 2 სიმბოლო
                                     </small>
                                     <small
@@ -176,6 +177,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                                 : "error"
                                         }
                                     >
+                                        <img src="icons/checkmark.png" alt="" />
                                         მაქსიმუმ 255 სიმბოლო
                                     </small>
                                 </div>
@@ -201,6 +203,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                                 : "error"
                                         }
                                     >
+                                        <img src="icons/checkmark.png" alt="" />
                                         მინიმუმ 2 სიმბოლო
                                     </small>
                                     <small
@@ -212,6 +215,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                                 : "error"
                                         }
                                     >
+                                        <img src="icons/checkmark.png" alt="" />
                                         მაქსიმუმ 255 სიმბოლო
                                     </small>
                                 </div>
@@ -272,9 +276,7 @@ export default function Modal({ isOpen, onClose, departments, addEmployee }) {
                                     }
                                     required
                                 >
-                                    <option value="">
-                                        აირჩიეთ დეპარტამენტი
-                                    </option>
+                                    
                                     {departments.map((department) => (
                                         <option
                                             key={department.id}

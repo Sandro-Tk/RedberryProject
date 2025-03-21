@@ -22,9 +22,9 @@ export default function Filters({
         const updatedFilters = { ...tempFilters };
         if (type === "employee") {
             if (updatedFilters[type].includes(value)) {
-                updatedFilters[type] = []; 
+                updatedFilters[type] = [];
             } else {
-                updatedFilters[type] = [value]; 
+                updatedFilters[type] = [value];
             }
         } else {
             if (updatedFilters[type].includes(value)) {
@@ -41,6 +41,7 @@ export default function Filters({
     const handleConfirmFilters = () => {
         setConfirmedFilters(tempFilters);
         onConfirmFilters(tempFilters);
+        sessionStorage.setItem("filters", JSON.stringify(tempFilters));
         onHandleDropdown("department", false);
         onHandleDropdown("priority", false);
         onHandleDropdown("employee", false);
@@ -55,6 +56,7 @@ export default function Filters({
         setTempFilters(clearedFilters);
         setConfirmedFilters(clearedFilters);
         onConfirmFilters(clearedFilters);
+        sessionStorage.removeItem("filters");
     };
 
     const handleRemoveFilter = (type, value) => {
@@ -65,6 +67,12 @@ export default function Filters({
         setTempFilters(updatedFilters);
         setConfirmedFilters(updatedFilters);
         onConfirmFilters(updatedFilters);
+        sessionStorage.setItem("filters", JSON.stringify(updatedFilters));
+    };
+
+    const getEmployeeName = (id) => {
+        const employee = employees.find((emp) => emp.id === id);
+        return employee ? `${employee.name} ${employee.surname}` : id;
     };
 
     return (
@@ -255,14 +263,16 @@ export default function Filters({
                     {Object.keys(confirmedFilters).map((type) =>
                         confirmedFilters[type].map((value) => (
                             <div key={value} className="selected-filter">
-                                {value}
+                                {type === "employee"
+                                    ? getEmployeeName(value)
+                                    : value}
                                 <button
                                     className="remove-filter-button"
                                     onClick={() =>
                                         handleRemoveFilter(type, value)
                                     }
                                 >
-                                    <img style={{height: "14px", marginTop: "4px"}} src="icons/x.png" alt="" />
+                                    <img src="icons/x.png" alt="" />
                                 </button>
                             </div>
                         ))

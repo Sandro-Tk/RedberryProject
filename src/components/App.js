@@ -5,6 +5,7 @@ import {
     Routes,
     useLocation,
 } from "react-router-dom";
+import "@fontsource/firago";
 import Navbar from "./Navbar/Navbar";
 import Filters from "./Filters/Filters";
 import TaskBoard from "./TaskBoard/TaskBoard";

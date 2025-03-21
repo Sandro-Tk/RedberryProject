@@ -136,6 +136,7 @@ label {
     height: 42px;
     width: 384px;
     border-radius: 6px;
+    border: 1px solid #dee2e6;
 }
 
 .delete-button {
@@ -163,6 +164,10 @@ label {
     cursor: pointer;
 }
 
+.form-actions button:hover {
+    border-color: #b588f4;
+}
+
 .form-actions button[type="submit"] {
     padding: 10px 20px;
     background-color: #8338ec;
@@ -170,6 +175,10 @@ label {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.form-actions button[type="submit"]:hover {
+    background-color: #b588f4;
 }
 
 .gray {
